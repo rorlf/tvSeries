@@ -4,17 +4,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getShows } from 'services';
 
 // Utils
-import { calculateCardColumns } from 'shared/utils/card';
+import { numPosterColumns } from 'shared/utils/poster';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
+import { useNavigation } from '@react-navigation/native';
 
 // Components
 import { ShowItem } from './components';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 // Types
-import { TvSeriesItemProps } from './components/ShowItem/types';
+import { ShowItemProps } from './components/ShowItem/types';
 import { Show } from 'services/TvMazeService/types';
 
 // Styles
@@ -22,36 +23,36 @@ import useStyles from './styles';
 
 export const HomeScreen = () => {
   const styles = useStyles();
-  const { metrics } = useTheme();
-  const [tvSeries, setTvSeries] = useState<TvSeriesItemProps[]>([]);
+  const { navigate } = useNavigation();
+  const { colors } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+  const [shows, setShows] = useState<Show[]>([]);
+  const showsItems = useMemo(() => createShowItems(), [shows]);
   const [page, setPage] = useState(0);
-  const columns = useMemo(
-    () => calculateCardColumns(metrics.screenPadding, metrics.cardMinWidth),
-    [metrics],
-  );
 
   useEffect(() => {
     obtainTvSeries();
   }, [page]);
 
   async function obtainTvSeries() {
+    setIsLoading(true);
     const shows = await getShows(page);
-    setTvSeries(prevTvSeries => {
-      if (shows) {
-        const tvSerieItems: TvSeriesItemProps[] = createTvSeriesItem(shows);
-        return prevTvSeries.concat(tvSerieItems);
-      }
+    setShows(prevShows => {
+      if (shows) return prevShows.concat(shows);
 
-      return prevTvSeries;
+      return prevShows;
     });
+    setIsLoading(false);
   }
 
-  function createTvSeriesItem(shows: Show[]): TvSeriesItemProps[] {
+  function createShowItems(): ShowItemProps[] {
+    //   @todo adicionar isFavorite
     return shows.map(show => {
       return {
         ...show,
         onPressFavorite: () => null,
-        onPressTvSerie: () => null,
+        onPressTvSerie: () => navigate('ShowScreen', show),
+        isFavorite: true,
       };
     });
   }
@@ -64,17 +65,27 @@ export const HomeScreen = () => {
   const onEndReached = useCallback(() => {
     setPage(prevPage => prevPage + 1);
   }, []);
+  const renderFooter = useCallback(
+    () => (
+      <View style={styles.footer}>
+        {isLoading && (
+          <ActivityIndicator size="large" color={colors.textPrimary} />
+        )}
+      </View>
+    ),
+    [isLoading],
+  );
 
   return (
     <FlatList
       style={styles.screen}
       columnWrapperStyle={styles.columnWrapper}
-      data={tvSeries}
+      data={showsItems}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       onEndReached={onEndReached}
-      numColumns={columns}
-      key={columns}
+      ListFooterComponent={renderFooter}
+      numColumns={numPosterColumns}
       showsVerticalScrollIndicator={false}
     />
   );

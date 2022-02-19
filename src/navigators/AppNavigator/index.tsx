@@ -11,15 +11,9 @@ import { AppNavigatorParams } from './types';
 
 // Navigators
 import { HomeNavigator } from 'navigators/HomeNavigator';
-import { Text, View } from 'react-native';
 
-const HomeScreen = () => {
-  return (
-    <View>
-      <Text>LoginScreen</Text>
-    </View>
-  );
-};
+// Screens
+import { ShowScreen } from 'screens';
 
 const { Navigator, Screen } = createStackNavigator<AppNavigatorParams>();
 
@@ -32,8 +26,7 @@ export const AppNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
       }}>
       <Screen name="HomeNavigator" component={HomeNavigator} />
-
-      <Screen name="HomeScreen" component={HomeScreen} />
+      <Screen name="ShowScreen" component={ShowScreen} />
     </Navigator>
   );
 };

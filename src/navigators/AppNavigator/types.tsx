@@ -1,9 +1,10 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { HomeNavigatorParams } from 'navigators/HomeNavigator/types';
+import { Show } from 'services/TvMazeService/types';
 
 export type AppNavigatorParams = {
   HomeNavigator: NavigatorScreenParams<HomeNavigatorParams>;
-  HomeScreen: undefined;
+  ShowScreen: Show;
 };
 
 declare global {

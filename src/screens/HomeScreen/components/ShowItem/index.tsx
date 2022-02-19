@@ -4,11 +4,14 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Components
-import { View, Image, TouchableOpacity, Pressable } from 'react-native';
-import { Body1 } from 'shared/components';
+import { View, TouchableOpacity, Pressable } from 'react-native';
+import { Body2, ShowPoster } from 'shared/components';
 
 // Types
-import { TvSeriesItemProps } from './types';
+import { ShowItemProps } from './types';
+
+// Hooks
+import { useTheme } from 'store/slices/themeSlice';
 
 // Styles
 import useStyles from './styles';
@@ -18,21 +21,27 @@ export const ShowItem = ({
   image,
   onPressTvSerie,
   onPressFavorite,
-}: TvSeriesItemProps) => {
+  isFavorite,
+}: ShowItemProps) => {
   const styles = useStyles();
+  const { colors } = useTheme();
 
   return (
     <Pressable style={styles.container} onPress={onPressTvSerie}>
-      <Image source={{ uri: image.medium }} style={styles.image} />
+      <ShowPoster uri={image.medium} />
       <View style={styles.info}>
-        <Body1 style={styles.name} numberOfLines={1}>
+        <Body2 style={styles.name} numberOfLines={1}>
           {name}
-        </Body1>
+        </Body2>
       </View>
       <TouchableOpacity
         style={styles.favoriteContainer}
         onPress={onPressFavorite}>
-        <Icon name="star" color="#e0e0e0" size={18} />
+        <Icon
+          name="star"
+          color={isFavorite ? colors.favorite : colors.inactiveIcon}
+          size={20}
+        />
       </TouchableOpacity>
     </Pressable>
   );

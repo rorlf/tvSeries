@@ -1,6 +1,7 @@
 import { Show } from 'services/TvMazeService/types';
 
-export interface TvSeriesItemProps extends Show {
+export interface ShowItemProps extends Show {
   onPressTvSerie: () => void;
   onPressFavorite: () => void;
+  isFavorite: boolean;
 }

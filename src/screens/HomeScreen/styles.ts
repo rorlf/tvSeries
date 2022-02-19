@@ -13,5 +13,8 @@ export default function useStyles() {
     columnWrapper: {
       justifyContent: 'space-between',
     },
+    footer: {
+      marginBottom: metrics.footer,
+    },
   });
 }

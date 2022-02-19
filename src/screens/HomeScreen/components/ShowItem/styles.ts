@@ -6,8 +6,8 @@ export default function useStyles() {
 
   return StyleSheet.create({
     container: {
-      width: metrics.cardWidth,
       marginBottom: metrics.spacing(2),
+      width: metrics.posterWidth,
     },
     favoriteContainer: {
       top: metrics.spacing(1),
@@ -20,14 +20,10 @@ export default function useStyles() {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    image: {
-      width: '100%',
-      aspectRatio: 42 / 59,
-      height: undefined,
-    },
     name: {
       textAlign: 'center',
       flex: 1,
+      paddingHorizontal: metrics.spacing(2),
     },
     info: {
       backgroundColor: '#000000',
