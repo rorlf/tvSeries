@@ -19,10 +19,11 @@ export const colors = {
   primaryDark: '',
   primaryLight: '',
   textPrimary: '#ffffff',
-  screenBackground: '#37474f',
+  screenBackground: '#102027',
   navigationBar: '#102027',
   overlay: 'rgba(98, 114, 123,0.7)',
   inactiveIcon: 'rgba(255, 255, 255, 0.5)',
+  favorite: '#ffff00',
   //   colorPrimary – The color of the app bar.
   // colorPrimaryDark – The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary.
   // colorAccent – The color of UI controls such as check boxes, radio buttons, and edit text boxes.

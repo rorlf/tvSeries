@@ -1,29 +1,30 @@
 import { deviceWidth } from 'services';
-import { calculateCardColumns } from 'shared/utils/card';
+import { numPosterColumns } from 'shared/utils/poster';
 
 const baseline = 4;
 
 const screenPadding = spacing(4);
-const cardMinWidth = 150;
-const cardMargin = spacing(0.5);
-const cardWidth = calculateCardWidth();
+const posterMinWidth = 150;
+const posterMargin = spacing(0.5);
+const posterWidth = calculatePosterWidth();
 
 export const metrics = {
   screenPadding,
-  cardMinWidth,
-  cardWidth,
-  cardMargin,
+  posterMinWidth,
+  posterWidth,
+  posterMargin,
   spacing,
+  footer: 80,
 };
 
-function spacing(value) {
+function spacing(value: number) {
   return value * baseline;
 }
 
-function calculateCardWidth() {
-  const columns = calculateCardColumns(screenPadding, cardMinWidth);
-  const cardAvailableWidth = (deviceWidth - screenPadding * 2) / columns;
-  const cardWidth = cardAvailableWidth - 2 * cardMargin;
+function calculatePosterWidth() {
+  const posterAvailableWidth =
+    (deviceWidth - screenPadding * 2) / numPosterColumns;
+  const posterWidth = posterAvailableWidth - 2 * posterMargin;
 
-  return Math.floor(cardWidth);
+  return Math.floor(posterWidth);
 }

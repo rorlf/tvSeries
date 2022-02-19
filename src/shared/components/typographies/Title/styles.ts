@@ -7,8 +7,8 @@ export default function useStyles() {
   return StyleSheet.create({
     text: {
       color: colors.textPrimary,
-      fontSize: 14,
-      fontWeight: '300',
+      fontSize: 20,
+      fontWeight: '500',
     },
   });
 }

@@ -8,6 +8,7 @@ export default function useStyles() {
     text: {
       color: colors.textPrimary,
       fontSize: 14,
+      fontWeight: '500',
     },
   });
 }
