@@ -13,6 +13,9 @@ export default function useStyles() {
     columnWrapper: {
       justifyContent: 'space-between',
     },
+    error: {
+      flex: 1,
+    },
     footer: {
       marginBottom: metrics.footer,
     },

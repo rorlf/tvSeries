@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Services
-import { getShows } from 'services';
+import { getShows, showError } from 'services';
 
 // Utils
 import { numPosterColumns } from 'shared/utils/poster';
@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 // Components
 import { ShowItem } from './components';
 import { ActivityIndicator, FlatList, View } from 'react-native';
+import { Error } from 'shared/components';
 
 // Types
 import { ShowItemProps } from './components/ShowItem/types';
@@ -26,9 +27,12 @@ export const HomeScreen = () => {
   const { navigate } = useNavigation();
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [shows, setShows] = useState<Show[]>([]);
-  const showsItems = useMemo(() => createShowItems(), [shows]);
   const [page, setPage] = useState(0);
+  const showsItems = useMemo(() => createShowItems(), [shows]);
+  const shouldDisplayError =
+    shows.length === 0 && hasError && isLoading === false;
 
   useEffect(() => {
     obtainTvSeries();
@@ -36,12 +40,18 @@ export const HomeScreen = () => {
 
   async function obtainTvSeries() {
     setIsLoading(true);
-    const shows = await getShows(page);
-    setShows(prevShows => {
-      if (shows) return prevShows.concat(shows);
+    try {
+      const shows = await getShows(page);
+      setShows(prevShows => {
+        if (shows) return prevShows.concat(shows);
 
-      return prevShows;
-    });
+        return prevShows;
+      });
+    } catch (error) {
+      showError('Error getting shows');
+      setHasError(true);
+    }
+
     setIsLoading(false);
   }
 
@@ -75,6 +85,17 @@ export const HomeScreen = () => {
     ),
     [isLoading],
   );
+
+  if (shouldDisplayError)
+    return (
+      <View style={styles.screen}>
+        <Error
+          style={styles.error}
+          message="Error getting shows"
+          onPressRetry={obtainTvSeries}
+        />
+      </View>
+    );
 
   return (
     <FlatList
