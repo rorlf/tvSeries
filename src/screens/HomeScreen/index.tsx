@@ -59,7 +59,7 @@ export const HomeScreen = () => {
 
   const keyExtractor = useCallback((show: Show) => show.id.toString(), []);
   const renderItem = useCallback(
-    ({ item: show }) => <ShowItem onPressTvSerie={() => null} {...show} />,
+    ({ item: show }) => <ShowItem {...show} />,
     [],
   );
   const onEndReached = useCallback(() => {
