@@ -15,10 +15,11 @@
 // };
 // @todo remover comentarios
 export const colors = {
-  primary: '',
-  primaryDark: '',
-  primaryLight: '',
+  primary: '#ffff00',
+  primaryDark: '#c7cc00',
+  primaryLight: '#ffff5a',
   textPrimary: '#ffffff',
+  placeholder: '#8d8d8d',
   screenBackground: '#102027',
   navigationBar: '#102027',
   overlay: 'rgba(98, 114, 123,0.7)',
