@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppNavigator } from 'navigators/AppNavigator';
 import { Provider } from 'react-redux';
 import store from 'store';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <NavigationContainer>
         <SafeAreaView style={{ flex: 1 }}>
           <AppNavigator />
+          <FlashMessage position="top" />
         </SafeAreaView>
       </NavigationContainer>
     </Provider>

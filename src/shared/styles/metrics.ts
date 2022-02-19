@@ -1,4 +1,4 @@
-import { deviceWidth } from 'services';
+import { deviceWidth } from 'services/DeviceService';
 import { numPosterColumns } from 'shared/utils/poster';
 
 const baseline = 4;
