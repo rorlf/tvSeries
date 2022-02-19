@@ -25,7 +25,7 @@ import { InfoItem, SeasonItem } from './components';
 // Types
 import { Season } from 'services/TvMazeService/types';
 import { AppNavigatorParams } from 'navigators/AppNavigator/types';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
 // Utils
 import { removeTagsFromHtmlString } from 'shared/utils/string';
@@ -36,6 +36,9 @@ import useStyles from './styles';
 type ScreenRouteProp = RouteProp<AppNavigatorParams, 'ShowScreen'>;
 
 export const ShowScreen = () => {
+  const { navigate } = useNavigation();
+  const { params } = useRoute<ScreenRouteProp>();
+  const styles = useStyles();
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [isSeasonsLoading, setIsSeasonsLoading] = useState(true);
   const [isInfoCollapsed, setIsInfoCollapsed] = useState(true);
@@ -44,8 +47,6 @@ export const ShowScreen = () => {
 
   const scrollRef = useRef<ScrollView>(null);
 
-  const { params } = useRoute<ScreenRouteProp>();
-  const styles = useStyles();
   const schedule = useMemo(() => createSchedule(), [params]);
   const sinopse = useMemo(
     () => removeTagsFromHtmlString(params.summary),
@@ -116,7 +117,7 @@ export const ShowScreen = () => {
   }
 
   function onPressSeason(season: Season) {
-    // navigate @todo
+    navigate('SeasonScreen', { season, showName: params.name });
   }
 
   const renderItem = useCallback(
@@ -126,67 +127,70 @@ export const ShowScreen = () => {
     [],
   );
   return (
-    <ScrollView style={styles.screen} ref={scrollRef}>
-      <ShowPoster uri={params.image.medium} style={styles.image} />
-      <Headline style={styles.name} selectable>
-        {params.name} <Title style={styles.premiered}>({premieredYear})</Title>
-      </Headline>
-      <View style={styles.sections}>
-        <Section
-          style={styles.section}
-          title="Show Info"
-          isCollapsed={isInfoCollapsed}
-          onToggleSection={toggleInfo}>
-          <View style={styles.sectionContent}>
-            {params.network?.name && (
-              <InfoItem label="Network" value={params.network.name} />
-            )}
-            {schedule && <InfoItem label="Schedule" value={schedule} />}
-            <InfoItem label="Status" value={params.status} />
-            <InfoItem label="Show Type" value={params.type} />
-            <InfoItem label="Genres" value={genres} />
-            {params.officialSite && (
-              <InfoItem
-                label="Official site"
-                value={params.officialSite}
-                onPressValue={onPressSite}
+    <View style={styles.screen}>
+      <ScrollView style={styles.container} ref={scrollRef}>
+        <ShowPoster uri={params.image.medium} style={styles.image} />
+        <Headline style={styles.name} selectable>
+          {params.name}{' '}
+          <Title style={styles.premiered}>({premieredYear})</Title>
+        </Headline>
+        <View style={styles.sections}>
+          <Section
+            style={styles.section}
+            title="Show Info"
+            isCollapsed={isInfoCollapsed}
+            onToggleSection={toggleInfo}>
+            <View style={styles.sectionContent}>
+              {params.network?.name && (
+                <InfoItem label="Network" value={params.network.name} />
+              )}
+              {schedule && <InfoItem label="Schedule" value={schedule} />}
+              <InfoItem label="Status" value={params.status} />
+              <InfoItem label="Show Type" value={params.type} />
+              <InfoItem label="Genres" value={genres} />
+              {params.officialSite && (
+                <InfoItem
+                  label="Official site"
+                  value={params.officialSite}
+                  onPressValue={onPressSite}
+                />
+              )}
+              {params.rating?.average && (
+                <InfoItem label="Rating" value={params.rating.average} />
+              )}
+            </View>
+          </Section>
+          <Section
+            style={styles.section}
+            title="Sinopse"
+            isCollapsed={isSinopseCollapsed}
+            onToggleSection={toggleSinopse}>
+            <View style={styles.sectionContent}>
+              <Body1>{sinopse}</Body1>
+            </View>
+          </Section>
+          <Section
+            style={styles.section}
+            title="Seasons"
+            isCollapsed={isSeasonsCollapsed}
+            onToggleSection={toggleSeasons}>
+            {isSeasonsLoading ? (
+              <Loading style={styles.loading} />
+            ) : (
+              <FlatList
+                data={seasons}
+                horizontal
+                style={styles.seasons}
+                renderItem={renderItem}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.seasonsContent}
               />
             )}
-            {params.rating?.average && (
-              <InfoItem label="Rating" value={params.rating.average} />
-            )}
-          </View>
-        </Section>
-        <Section
-          style={styles.section}
-          title="Sinopse"
-          isCollapsed={isSinopseCollapsed}
-          onToggleSection={toggleSinopse}>
-          <View style={styles.sectionContent}>
-            <Body1>{sinopse}</Body1>
-          </View>
-        </Section>
-        <Section
-          style={styles.section}
-          title="Seasons"
-          isCollapsed={isSeasonsCollapsed}
-          onToggleSection={toggleSeasons}>
-          {isSeasonsLoading ? (
-            <Loading style={styles.loading} />
-          ) : (
-            <FlatList
-              data={seasons}
-              horizontal
-              style={styles.seasons}
-              renderItem={renderItem}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.seasonsContent}
-            />
-          )}
-        </Section>
-      </View>
-      <View style={styles.footer} />
+          </Section>
+        </View>
+        <View style={styles.footer} />
+      </ScrollView>
       <BackButton style={styles.backButton} />
-    </ScrollView>
+    </View>
   );
 };

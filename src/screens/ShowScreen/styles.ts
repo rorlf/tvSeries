@@ -7,11 +7,15 @@ export default function useStyles() {
   return StyleSheet.create({
     screen: {
       flex: 1,
-      paddingVertical: metrics.screenPadding,
       backgroundColor: colors.screenBackground,
+    },
+    container: {
+      flex: 1,
+      paddingVertical: metrics.screenPadding,
     },
     backButton: {
       position: 'absolute',
+      top: metrics.spacing(4),
       left: metrics.spacing(4),
     },
     image: {
