@@ -38,6 +38,16 @@ export interface Season {
   image: Image | null;
 }
 
+export interface Episode {
+  id: number;
+  name: string;
+  season: number;
+  number: number;
+  summary: string | null;
+  runtime: number | null;
+  image: Image | null;
+}
+
 interface Image {
   medium: string;
   original: string;

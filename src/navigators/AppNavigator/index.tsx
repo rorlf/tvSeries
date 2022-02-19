@@ -13,7 +13,7 @@ import { AppNavigatorParams } from './types';
 import { HomeNavigator } from 'navigators/HomeNavigator';
 
 // Screens
-import { ShowScreen } from 'screens';
+import { SeasonScreen, ShowScreen } from 'screens';
 
 const { Navigator, Screen } = createStackNavigator<AppNavigatorParams>();
 
@@ -27,6 +27,7 @@ export const AppNavigator = () => {
       }}>
       <Screen name="HomeNavigator" component={HomeNavigator} />
       <Screen name="ShowScreen" component={ShowScreen} />
+      <Screen name="SeasonScreen" component={SeasonScreen} />
     </Navigator>
   );
 };

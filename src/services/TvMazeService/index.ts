@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { tvMazeAxiosInstance } from 'config/Api';
-import { Season, Show } from './types';
+import { Episode, Season, Show } from './types';
 
 export async function getShows(page: number) {
   try {
@@ -21,6 +21,18 @@ export async function getSeasons(id: number) {
   try {
     const response = await tvMazeAxiosInstance.get<Season[]>(
       `shows/${id}/seasons`,
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getEpisodes(id: number) {
+  try {
+    const response = await tvMazeAxiosInstance.get<Episode[]>(
+      `seasons/${id}/episodes`,
     );
 
     return response.data;
