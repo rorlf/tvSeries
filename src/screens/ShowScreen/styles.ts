@@ -67,9 +67,6 @@ export default function useStyles() {
       marginRight: metrics.spacing(1),
       borderRadius: metrics.spacing(1),
     },
-    loading: {
-      paddingVertical: metrics.spacing(5),
-    },
     footer: {
       marginBottom: metrics.footer,
     },

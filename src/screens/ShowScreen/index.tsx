@@ -24,12 +24,16 @@ import {
   Body1,
   Body2,
   Headline,
-  Loading,
   Section,
   ShowPoster,
   Title,
 } from 'shared/components';
-import { EpisodeItem, InfoItem, SeasonItem } from './components';
+import {
+  EpisodeItem,
+  InfoItem,
+  LoadingAndErrorHandler,
+  SeasonItem,
+} from './components';
 
 // Hooks
 import { useStorageValue } from 'data/Storage';
@@ -56,7 +60,9 @@ export const ShowScreen = () => {
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [isSeasonsLoading, setIsSeasonsLoading] = useState(true);
+  const [hasSeasonsError, setHasSeasonsError] = useState(false);
   const [isEpisodesLoading, setIsEpisodesLoading] = useState(true);
+  const [hasEpisodesError, setHasEpisodesError] = useState(false);
   const [activeEpisodeSection, setActiveEpisodeSection] = useState();
   const [favorites] = useStorageValue('@favorites');
   const isFavorite = useMemo(
@@ -92,12 +98,14 @@ export const ShowScreen = () => {
 
   async function obtainSeasons() {
     setIsSeasonsLoading(true);
+    setHasSeasonsError(false);
 
     try {
       const seasons = await getSeasons(params.id);
       setSeasons(seasons.reverse());
     } catch (error) {
       showError('Error getting seasons');
+      setHasSeasonsError(true);
     }
 
     setIsSeasonsLoading(false);
@@ -105,12 +113,14 @@ export const ShowScreen = () => {
 
   async function obtainEpisodes() {
     setIsEpisodesLoading(true);
+    setHasEpisodesError(false);
 
     try {
       const episodes = await getShowEpisodes(params.id);
       setEpisodes(episodes);
     } catch (error) {
       showError('Error getting episodes');
+      setHasEpisodesError(true);
     }
 
     setIsEpisodesLoading(false);
@@ -242,9 +252,11 @@ export const ShowScreen = () => {
             </View>
           </Section>
           <Section style={styles.section} title="Seasons">
-            {isSeasonsLoading ? (
-              <Loading style={styles.loading} />
-            ) : (
+            <LoadingAndErrorHandler
+              onPressRetry={obtainSeasons}
+              isLoading={isSeasonsLoading}
+              errorMessage="Error getting seasons"
+              hasError={hasSeasonsError}>
               <FlatList
                 data={seasons}
                 horizontal
@@ -253,12 +265,14 @@ export const ShowScreen = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.seasonsContent}
               />
-            )}
+            </LoadingAndErrorHandler>
           </Section>
           <Section style={styles.section} title="Episodes">
-            {isEpisodesLoading ? (
-              <Loading style={styles.loading} />
-            ) : (
+            <LoadingAndErrorHandler
+              onPressRetry={obtainEpisodes}
+              isLoading={isEpisodesLoading}
+              errorMessage="Error getting episodes"
+              hasError={hasEpisodesError}>
               <View style={styles.episodesContainer}>
                 <FlatList
                   data={sectionTitles}
@@ -278,7 +292,7 @@ export const ShowScreen = () => {
                   ))}
                 </View>
               </View>
-            )}
+            </LoadingAndErrorHandler>
           </Section>
         </View>
         <View style={styles.footer} />
