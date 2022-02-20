@@ -29,6 +29,7 @@ export const HomeScreen = () => {
   const [hasError, setHasError] = useState(false);
   const [shows, setShows] = useState<Show[]>([]);
   const [page, setPage] = useState(0);
+  const [reachedEndOfTheList, setReachedEndOfTheList] = useState(false);
   const showsItems = useMemo(() => createShowItems(), [shows]);
   const shouldDisplayError =
     shows.length === 0 && hasError && isLoading === false;
@@ -42,11 +43,14 @@ export const HomeScreen = () => {
     setHasError(false);
     try {
       const shows = await getShows(page);
-      setShows(prevShows => {
-        if (shows) return prevShows.concat(shows);
+      if (shows) {
+        setShows(prevShows => {
+          return prevShows.concat(shows);
+        });
+        return;
+      }
 
-        return prevShows;
-      });
+      setReachedEndOfTheList(true);
     } catch (error) {
       showError('Error getting shows');
       setHasError(true);
@@ -78,8 +82,9 @@ export const HomeScreen = () => {
     [],
   );
   const onEndReached = useCallback(() => {
-    setPage(prevPage => prevPage + 1);
-  }, []);
+    if (!reachedEndOfTheList) setPage(prevPage => prevPage + 1);
+  }, [reachedEndOfTheList]);
+
   const renderFooter = useCallback(
     () => (
       <View style={styles.footer}>
