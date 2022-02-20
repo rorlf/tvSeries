@@ -45,7 +45,7 @@ export const PosterWithName = ({
         style={styles.favoriteContainer}
         onPress={onPressFavorite}>
         <Icon
-          name="star"
+          name="heart"
           color={isFavorite ? colors.favorite : colors.inactiveIcon}
           size={20}
         />
