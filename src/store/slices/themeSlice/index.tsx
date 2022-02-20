@@ -1,8 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { darkTheme, lightTheme, ThemeState } from 'shared/styles/themes';
+import Storage from 'data/Storage';
+import { darkColors, lightColors } from 'shared/styles/colors';
+import { metrics } from 'shared/styles/metrics';
 import { useSelector } from 'store/hooks';
 
-const initialState: ThemeState = lightTheme;
+const isDarkMode = Storage.getData('@darkMode');
+
+const initialState = {
+  isDark: isDarkMode === false ? false : true,
+  colors: isDarkMode === false ? lightColors : darkColors,
+  metrics,
+};
 
 export const slice = createSlice({
   name: 'theme',
@@ -10,11 +18,12 @@ export const slice = createSlice({
   reducers: {
     toggleTheme: state => {
       if (state.isDark) {
-        state = lightTheme;
+        state.isDark = false;
+        state.colors = lightColors;
       } else {
-        state = darkTheme;
+        state.isDark = true;
+        state.colors = darkColors;
       }
-      return state;
     },
   },
 });

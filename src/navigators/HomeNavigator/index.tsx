@@ -67,13 +67,16 @@ export const HomeNavigator = () => {
         }}
       />
       <Screen
-        name="TesteScreen"
+        name="MenuScreen"
         component={MenuScreen}
         options={{
           headerShown: true,
           headerTitleAlign: 'center',
           title: 'Menu Options',
-          headerStyle: { backgroundColor: colors.navigationBar },
+          headerStyle: {
+            backgroundColor: colors.navigationBar,
+            borderBottomWidth: 1,
+          },
           headerTitleStyle: { color: colors.textPrimary },
           tabBarLabel: 'Menu',
           tabBarIcon: ({ color, size }) => (

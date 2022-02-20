@@ -26,7 +26,7 @@ export default function useStyles() {
       paddingHorizontal: metrics.spacing(2),
     },
     info: {
-      backgroundColor: '#000000',
+      backgroundColor: colors.posterInfoBackground,
       paddingVertical: metrics.spacing(3),
     },
   });

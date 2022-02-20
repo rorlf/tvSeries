@@ -9,6 +9,7 @@ export default function useStyles() {
       backgroundColor: colors.navigationBar,
       height: 52,
       paddingBottom: metrics.spacing(1),
+      borderTopWidth: 2,
     },
   });
 }

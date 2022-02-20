@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { checkIsFingerprintAvailable, showMessage } from 'services';
 
 // Hooks
-import { useTheme } from 'store/slices/themeSlice';
-import { useStorageValue } from 'data/Storage';
+import { toggleTheme, useTheme } from 'store/slices/themeSlice';
+import { useDispatch } from 'react-redux';
+import Storage, { useStorageValue } from 'data/Storage';
 
 // Components
 import { KeyboardAvoidingView, Modal, View } from 'react-native';
@@ -17,11 +18,13 @@ import useStyles from './styles';
 
 export const MenuScreen = () => {
   const styles = useStyles();
+  const dispatch = useDispatch();
   const { isDark } = useTheme();
   const [isFingerprintAvailable, setIsFingerprintAvailable] = useState(false);
   const [isPinInputVisible, setIsPinInputVisible] = useState(false);
   const [pin] = useStorageValue('@pin');
   const [useFigerprint, setUseFigerprint] = useStorageValue('@useFigerprint');
+
   const hasPin = !!pin;
   const shouldDisplayUseFigerprint = isFingerprintAvailable && hasPin;
 
@@ -34,7 +37,10 @@ export const MenuScreen = () => {
     setIsFingerprintAvailable(isFingerprintAvailable);
   }
 
-  function onDarkModeValueChange() {}
+  function onDarkModeValueChange(value: boolean) {
+    dispatch(toggleTheme());
+    Storage.storeData('@darkMode', value);
+  }
 
   function securedWithPinValueChange() {
     setIsPinInputVisible(true);

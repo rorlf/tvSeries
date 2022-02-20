@@ -1,20 +1,22 @@
-// export const colors = {
-//   primary: '',
-//   primaryDark: '',
-//   primaryLight: '',
-//   textPrimary: '#000000',
-//   screenBackground: '#bdbdbd',
-//   navigationBar: '#102027',
-//   //   colorPrimary – The color of the app bar.
-//   // colorPrimaryDark – The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary.
-//   // colorAccent – The color of UI controls such as check boxes, radio buttons, and edit text boxes.
-//   // windowBackground – The color of the screen background.
-//   // textColorPrimary – The color of UI text in the app bar.
-//   // statusBarColor – The color of the status bar.
-//   // navigationBarColor – The color of the navigation bar.
-// };
-// @todo remover comentarios
-export const colors = {
+export const lightColors = {
+  primary: '#ffff00',
+  primaryDark: '#c7cc00',
+  primaryLight: '#ffff5a',
+  textPrimary: '#000000',
+  placeholder: '#8d8d8d',
+  screenBackground: '#9fa8da',
+  navigationBar: '#9fa8da',
+  overlay: 'rgba(98, 114, 123,0.7)',
+  inactiveIcon: 'rgba(255, 255, 255, 0.8)',
+  favorite: '#ffff00',
+  error: '#d32f2f',
+  textMessage: '#ffffff',
+  messageBackground: '#000000',
+  searchInputBackground: 'rgba(255,255,255,0.5)',
+  posterInfoBackground: '#ffffff',
+};
+
+export const darkColors: ThemeColors = {
   primary: '#ffff00',
   primaryDark: '#c7cc00',
   primaryLight: '#ffff5a',
@@ -28,11 +30,8 @@ export const colors = {
   error: '#d32f2f',
   textMessage: '#000000',
   messageBackground: '#ffffff',
-  //   colorPrimary – The color of the app bar.
-  // colorPrimaryDark – The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary.
-  // colorAccent – The color of UI controls such as check boxes, radio buttons, and edit text boxes.
-  // windowBackground – The color of the screen background.
-  // textColorPrimary – The color of UI text in the app bar.
-  // statusBarColor – The color of the status bar.
-  // navigationBarColor – The color of the navigation bar.
+  searchInputBackground: 'rgba(255,255,255,0.05)',
+  posterInfoBackground: '#000000',
 };
+
+type ThemeColors = typeof lightColors;
