@@ -18,6 +18,17 @@ export default function useStyles() {
       top: metrics.spacing(4),
       left: metrics.spacing(4),
     },
+    favoriteContainer: {
+      top: metrics.spacing(4),
+      right: metrics.spacing(4),
+      position: 'absolute',
+      backgroundColor: colors.overlay,
+      height: 32,
+      width: 32,
+      borderRadius: 32,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     image: {
       alignSelf: 'center',
     },

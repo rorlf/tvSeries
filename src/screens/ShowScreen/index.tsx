@@ -6,11 +6,20 @@ import React, {
   useState,
 } from 'react';
 
+// Dependencies
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 // Services
-import { getSeasons } from 'services';
+import { getSeasons, onPressFavorite, showError } from 'services';
 
 // Components
-import { FlatList, Linking, ScrollView, View } from 'react-native';
+import {
+  FlatList,
+  Linking,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
   BackButton,
   Body1,
@@ -21,6 +30,10 @@ import {
   Title,
 } from 'shared/components';
 import { InfoItem, SeasonItem } from './components';
+
+// Hooks
+import { useStorageValue } from 'data/Storage';
+import { useTheme } from 'store/slices/themeSlice';
 
 // Types
 import { Season } from 'services/TvMazeService/types';
@@ -39,11 +52,17 @@ export const ShowScreen = () => {
   const { navigate } = useNavigation();
   const { params } = useRoute<ScreenRouteProp>();
   const styles = useStyles();
+  const { colors } = useTheme();
   const [seasons, setSeasons] = useState<Season[]>([]);
+
   const [isSeasonsLoading, setIsSeasonsLoading] = useState(true);
-  const [isInfoCollapsed, setIsInfoCollapsed] = useState(true);
-  const [isSinopseCollapsed, setIsSinopseCollapsed] = useState(true);
+
   const [isSeasonsCollapsed, setIsSeasonsCollapsed] = useState(true);
+  const [favorites] = useStorageValue('@favorites');
+  const isFavorite = useMemo(
+    () => !!favorites?.some(favorite => favorite.id === params.id),
+    [favorites, params.id],
+  );
 
   const scrollRef = useRef<ScrollView>(null);
 
@@ -68,7 +87,9 @@ export const ShowScreen = () => {
     try {
       const seasons = await getSeasons(params.id);
       setSeasons(seasons.reverse());
-    } catch (error) {}
+    } catch (error) {
+      showError('Error getting seasons');
+    }
 
     setIsSeasonsLoading(false);
   }
@@ -99,13 +120,6 @@ export const ShowScreen = () => {
 
     return '';
   }
-  function toggleInfo(isCollapsed) {
-    setIsInfoCollapsed(isCollapsed);
-  }
-
-  function toggleSinopse(isCollapsed) {
-    setIsSinopseCollapsed(isCollapsed);
-  }
 
   function toggleSeasons(isCollapsed) {
     setIsSeasonsCollapsed(isCollapsed);
@@ -135,11 +149,7 @@ export const ShowScreen = () => {
           <Title style={styles.premiered}>({premieredYear})</Title>
         </Headline>
         <View style={styles.sections}>
-          <Section
-            style={styles.section}
-            title="Show Info"
-            isCollapsed={isInfoCollapsed}
-            onToggleSection={toggleInfo}>
+          <Section style={styles.section} title="Show Info">
             <View style={styles.sectionContent}>
               {params.network?.name && (
                 <InfoItem label="Network" value={params.network.name} />
@@ -160,11 +170,7 @@ export const ShowScreen = () => {
               )}
             </View>
           </Section>
-          <Section
-            style={styles.section}
-            title="Sinopse"
-            isCollapsed={isSinopseCollapsed}
-            onToggleSection={toggleSinopse}>
+          <Section style={styles.section} title="Sinopse">
             <View style={styles.sectionContent}>
               <Body1>{sinopse}</Body1>
             </View>
@@ -191,6 +197,15 @@ export const ShowScreen = () => {
         <View style={styles.footer} />
       </ScrollView>
       <BackButton style={styles.backButton} />
+      <TouchableOpacity
+        style={styles.favoriteContainer}
+        onPress={() => onPressFavorite(params)}>
+        <Icon
+          name="heart"
+          color={isFavorite ? colors.favorite : colors.inactiveIcon}
+          size={20}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
