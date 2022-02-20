@@ -2,10 +2,11 @@ import React from 'react';
 
 // Dependencies
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 // Screens
-import { HomeScreen } from 'screens/HomeScreen';
+import { HomeScreen, SearchShowScreen } from 'screens';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
@@ -28,6 +29,7 @@ export const HomeNavigator = () => {
         headerShown: false,
         tabBarStyle: styles.tabBar,
         tabBarInactiveTintColor: colors.inactiveIcon,
+        tabBarActiveTintColor: colors.favorite,
       }}>
       <Screen
         name="HomeScreen"
@@ -35,7 +37,17 @@ export const HomeNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
+            <MaterialCommunityIcon name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Screen
+        name="SearchShowScreen"
+        component={SearchShowScreen}
+        options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcon name="search" color={color} size={size} />
           ),
         }}
       />
@@ -46,7 +58,7 @@ export const HomeNavigator = () => {
           tabBarLabel: 'Menu',
 
           tabBarIcon: ({ color, size }) => (
-            <Icon name="menu" color={color} size={size} />
+            <MaterialCommunityIcon name="menu" color={color} size={size} />
           ),
         }}
       />

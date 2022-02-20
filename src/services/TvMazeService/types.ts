@@ -24,7 +24,7 @@ export interface Show {
       timezone: string;
     };
   } | null;
-  image: Image;
+  image?: Image;
   summary: string;
 }
 
@@ -46,6 +46,11 @@ export interface Episode {
   summary: string | null;
   runtime: number | null;
   image: Image | null;
+}
+
+export interface SearchedShow {
+  show: Show;
+  score: number;
 }
 
 interface Image {
