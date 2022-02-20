@@ -52,7 +52,7 @@ export const SearchShowScreen = () => {
       const shows = searchedShows.map(searchedShow => searchedShow.show);
       setShows(shows);
     } catch (error) {
-      showError('Error getting shows');
+      showError('Error searching shows');
       setHasError(true);
     }
     setIsLoading(false);
@@ -93,17 +93,6 @@ export const SearchShowScreen = () => {
     [isLoading],
   );
 
-  if (shouldDisplayError)
-    return (
-      <View style={styles.screen}>
-        <Error
-          style={styles.error}
-          message="Error getting shows"
-          onPressRetry={obtainTvSeries}
-        />
-      </View>
-    );
-
   return (
     <View style={styles.screen}>
       <SearchInput
@@ -111,17 +100,25 @@ export const SearchShowScreen = () => {
         onChangeSearchString={setSearchString}
         searchString={searchString}
       />
-      <FlatList
-        style={styles.content}
-        columnWrapperStyle={styles.columnWrapper}
-        data={showsItems}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={renderEmpty}
-        numColumns={numPosterColumns}
-        showsVerticalScrollIndicator={false}
-      />
+      {shouldDisplayError ? (
+        <Error
+          style={styles.error}
+          message="Error getting shows"
+          onPressRetry={obtainTvSeries}
+        />
+      ) : (
+        <FlatList
+          style={styles.content}
+          columnWrapperStyle={styles.columnWrapper}
+          data={showsItems}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          ListFooterComponent={renderFooter}
+          ListEmptyComponent={renderEmpty}
+          numColumns={numPosterColumns}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
