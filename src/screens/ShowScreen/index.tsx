@@ -1,16 +1,15 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Dependencies
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Services
-import { getSeasons, onPressFavorite, showError } from 'services';
+import {
+  getSeasons,
+  getShowEpisodes,
+  onPressFavorite,
+  showError,
+} from 'services';
 
 // Components
 import {
@@ -23,20 +22,21 @@ import {
 import {
   BackButton,
   Body1,
+  Body2,
   Headline,
   Loading,
   Section,
   ShowPoster,
   Title,
 } from 'shared/components';
-import { InfoItem, SeasonItem } from './components';
+import { EpisodeItem, InfoItem, SeasonItem } from './components';
 
 // Hooks
 import { useStorageValue } from 'data/Storage';
 import { useTheme } from 'store/slices/themeSlice';
 
 // Types
-import { Season } from 'services/TvMazeService/types';
+import { Episode, Season } from 'services/TvMazeService/types';
 import { AppNavigatorParams } from 'navigators/AppNavigator/types';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
@@ -54,17 +54,15 @@ export const ShowScreen = () => {
   const styles = useStyles();
   const { colors } = useTheme();
   const [seasons, setSeasons] = useState<Season[]>([]);
-
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [isSeasonsLoading, setIsSeasonsLoading] = useState(true);
-
-  const [isSeasonsCollapsed, setIsSeasonsCollapsed] = useState(true);
+  const [isEpisodesLoading, setIsEpisodesLoading] = useState(true);
+  const [activeEpisodeSection, setActiveEpisodeSection] = useState();
   const [favorites] = useStorageValue('@favorites');
   const isFavorite = useMemo(
     () => !!favorites?.some(favorite => favorite.id === params.id),
     [favorites, params.id],
   );
-
-  const scrollRef = useRef<ScrollView>(null);
 
   const schedule = useMemo(() => createSchedule(), [params]);
   const sinopse = useMemo(
@@ -77,8 +75,19 @@ export const ShowScreen = () => {
     [params],
   );
 
+  const episodeSections = useMemo(() => createEpisodeSections(), [episodes]);
+  const sectionTitles = useMemo(
+    () => episodeSections.map(episodeSection => episodeSection.title),
+    [episodeSections],
+  );
+  const episodesToRender = useMemo(
+    () => createEpisodesToRender(),
+    [activeEpisodeSection, episodeSections],
+  );
+
   useEffect(() => {
     obtainSeasons();
+    obtainEpisodes();
   }, []);
 
   async function obtainSeasons() {
@@ -92,6 +101,47 @@ export const ShowScreen = () => {
     }
 
     setIsSeasonsLoading(false);
+  }
+
+  async function obtainEpisodes() {
+    setIsEpisodesLoading(true);
+
+    try {
+      const episodes = await getShowEpisodes(params.id);
+      setEpisodes(episodes);
+    } catch (error) {
+      showError('Error getting episodes');
+    }
+
+    setIsEpisodesLoading(false);
+  }
+
+  function createEpisodeSections() {
+    const sections: { title: string; data: Episode[] }[] = [];
+
+    episodes.forEach(episode => {
+      const episodeSectionTitle = `Season ${episode.season}`;
+      const sectionIndex = sections.findIndex(
+        section => section.title === episodeSectionTitle,
+      );
+      if (sectionIndex !== -1) {
+        sections[sectionIndex].data.push(episode);
+      } else {
+        sections.push({
+          title: episodeSectionTitle,
+          data: [episode],
+        });
+      }
+    });
+    return sections.reverse();
+  }
+
+  function createEpisodesToRender() {
+    const index = episodeSections.findIndex(
+      episodeSection => episodeSection.title === activeEpisodeSection,
+    );
+
+    return episodeSections[index]?.data ?? [];
   }
 
   function createSchedule() {
@@ -121,11 +171,6 @@ export const ShowScreen = () => {
     return '';
   }
 
-  function toggleSeasons(isCollapsed) {
-    setIsSeasonsCollapsed(isCollapsed);
-    if (!isCollapsed) scrollRef.current?.scrollToEnd({ animated: true });
-  }
-
   function onPressSite() {
     params.officialSite && Linking.openURL(params.officialSite);
   }
@@ -134,15 +179,36 @@ export const ShowScreen = () => {
     navigate('SeasonScreen', { season, showName: params.name });
   }
 
-  const renderItem = useCallback(
+  function onPressEpisode(episode: Episode) {
+    // @todo
+    // navigate('SeasonScreen', { season, showName: params.name });
+  }
+
+  const renderSeasonItem = useCallback(
     ({ item: season }) => (
       <SeasonItem onPress={() => onPressSeason(season)} {...season} />
     ),
     [],
   );
+
+  const renderSeasonSectionItem = useCallback(
+    ({ item: sectionTitle }) => (
+      <TouchableOpacity
+        style={styles.sectionTitleContainer}
+        onPress={() => setActiveEpisodeSection(sectionTitle)}>
+        {activeEpisodeSection === sectionTitle ? (
+          <Body2>{sectionTitle}</Body2>
+        ) : (
+          <Body1>{sectionTitle}</Body1>
+        )}
+      </TouchableOpacity>
+    ),
+    [activeEpisodeSection],
+  );
+
   return (
     <View style={styles.screen}>
-      <ScrollView style={styles.container} ref={scrollRef}>
+      <ScrollView style={styles.container}>
         <ShowPoster uri={params.image?.medium} style={styles.image} />
         <Headline style={styles.name} selectable>
           {params.name}{' '}
@@ -175,11 +241,7 @@ export const ShowScreen = () => {
               <Body1>{sinopse}</Body1>
             </View>
           </Section>
-          <Section
-            style={styles.section}
-            title="Seasons"
-            isCollapsed={isSeasonsCollapsed}
-            onToggleSection={toggleSeasons}>
+          <Section style={styles.section} title="Seasons">
             {isSeasonsLoading ? (
               <Loading style={styles.loading} />
             ) : (
@@ -187,10 +249,35 @@ export const ShowScreen = () => {
                 data={seasons}
                 horizontal
                 style={styles.seasons}
-                renderItem={renderItem}
+                renderItem={renderSeasonItem}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.seasonsContent}
               />
+            )}
+          </Section>
+          <Section style={styles.section} title="Episodes">
+            {isEpisodesLoading ? (
+              <Loading style={styles.loading} />
+            ) : (
+              <View style={styles.episodesContainer}>
+                <FlatList
+                  data={sectionTitles}
+                  horizontal
+                  style={styles.seasons}
+                  renderItem={renderSeasonSectionItem}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.seasonsContent}
+                />
+                <View style={styles.sectionContent}>
+                  {episodesToRender.map(episode => (
+                    <EpisodeItem
+                      key={episode.id.toString()}
+                      onPress={() => onPressEpisode(episode)}
+                      {...episode}
+                    />
+                  ))}
+                </View>
+              </View>
             )}
           </Section>
         </View>

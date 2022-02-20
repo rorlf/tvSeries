@@ -57,6 +57,16 @@ export default function useStyles() {
     seasonsContent: {
       paddingHorizontal: metrics.spacing(4),
     },
+    episodesContainer: {
+      marginTop: metrics.spacing(2),
+    },
+    sectionTitleContainer: {
+      backgroundColor: colors.overlay,
+      paddingHorizontal: metrics.spacing(2),
+      paddingVertical: metrics.spacing(1),
+      marginRight: metrics.spacing(1),
+      borderRadius: metrics.spacing(1),
+    },
     loading: {
       paddingVertical: metrics.spacing(5),
     },
