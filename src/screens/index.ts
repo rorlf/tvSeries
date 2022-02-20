@@ -3,5 +3,5 @@ export * from './HomeScreen';
 export * from './MenuScreen';
 export * from './PinScreen';
 export * from './SearchShowScreen';
-export * from './ShowScreen';
 export * from './SeasonScreen';
+export * from './ShowScreen';

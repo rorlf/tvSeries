@@ -12,10 +12,10 @@ import { PosterWithNameProps } from './types';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
+import { useStorageValue } from 'data/Storage';
 
 // Styles
 import useStyles from './styles';
-import { useStorageValue } from 'data/Storage';
 
 export const PosterWithName = ({
   id,

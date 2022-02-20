@@ -1,4 +1,3 @@
-// Dependencies
 import {
   MessageOptions,
   showMessage as showFlashMessage,
