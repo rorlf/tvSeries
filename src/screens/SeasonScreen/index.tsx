@@ -18,13 +18,13 @@ import { EpisodeItem } from './components';
 import { Episode } from 'services/TvMazeService/types';
 import { AppNavigatorParams } from 'navigators/AppNavigator/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { EpisodeItemProps } from './components/EpisodeItem/types';
 
 // Utils
 import { removeTagsFromHtmlString } from 'shared/utils/string';
 
 // Styles
 import useStyles from './styles';
-import { EpisodeItemProps } from './components/EpisodeItem/types';
 
 type ScreenRouteProp = RouteProp<AppNavigatorParams, 'SeasonScreen'>;
 
