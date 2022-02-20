@@ -103,7 +103,7 @@ export const SearchShowScreen = () => {
       {shouldDisplayError ? (
         <Error
           style={styles.error}
-          message="Error getting shows"
+          message="Error searching shows"
           onPressRetry={obtainTvSeries}
         />
       ) : (
