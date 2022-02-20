@@ -4,6 +4,7 @@ import { Season, Show } from 'services/TvMazeService/types';
 
 export type AppNavigatorParams = {
   HomeNavigator: NavigatorScreenParams<HomeNavigatorParams>;
+  PinScreen: undefined;
   ShowScreen: Show;
   SeasonScreen: { season: Season; showName: string };
 };

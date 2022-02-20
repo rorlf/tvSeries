@@ -6,7 +6,12 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 // Screens
-import { FavoritesScreen, HomeScreen, SearchShowScreen } from 'screens';
+import {
+  FavoritesScreen,
+  HomeScreen,
+  MenuScreen,
+  SearchShowScreen,
+} from 'screens';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
@@ -63,8 +68,13 @@ export const HomeNavigator = () => {
       />
       <Screen
         name="TesteScreen"
-        component={HomeScreen}
+        component={MenuScreen}
         options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          title: 'Menu Options',
+          headerStyle: { backgroundColor: colors.navigationBar },
+          headerTitleStyle: { color: colors.textPrimary },
           tabBarLabel: 'Menu',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcon name="menu" color={color} size={size} />

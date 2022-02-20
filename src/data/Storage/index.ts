@@ -3,6 +3,10 @@ import { MMKV, useMMKVString } from 'react-native-mmkv';
 import { StorageKeys, StorageKeysTypes } from './types';
 
 const storage = new MMKV();
+const secureStorage = new MMKV({
+  id: 'mmkv.default',
+  encryptionKey: 'tvSeries2022',
+});
 
 function convertItemToData(item) {
   const data = JSON.parse(item);
@@ -23,6 +27,25 @@ function getData<T extends StorageKeys>(
   key: T,
 ): StorageKeysTypes[T] | undefined {
   const item = storage.getString(key);
+  if (item) {
+    const data = convertItemToData(item);
+    return data;
+  }
+  return undefined;
+}
+
+function storeSensitiveData<T extends StorageKeys>(
+  key: T,
+  data: StorageKeysTypes[T],
+) {
+  const item = convertDataToItem(data);
+  secureStorage.set(key, item);
+}
+
+function getSensitiveData<T extends StorageKeys>(
+  key: T,
+): StorageKeysTypes[T] | undefined {
+  const item = secureStorage.getString(key);
   if (item) {
     const data = convertItemToData(item);
     return data;
@@ -62,4 +85,6 @@ export default {
   storeData,
   getData,
   removeData,
+  storeSensitiveData,
+  getSensitiveData,
 };

@@ -9,15 +9,20 @@ import {
 // Types
 import { AppNavigatorParams } from './types';
 
+// Hooks
+import { useStorageValue } from 'data/Storage';
+
 // Navigators
 import { HomeNavigator } from 'navigators/HomeNavigator';
 
 // Screens
-import { SeasonScreen, ShowScreen } from 'screens';
+import { PinScreen, SeasonScreen, ShowScreen } from 'screens';
 
 const { Navigator, Screen } = createStackNavigator<AppNavigatorParams>();
 
 export const AppNavigator = () => {
+  const [pin] = useStorageValue('@pin');
+
   return (
     <Navigator
       screenOptions={{
@@ -25,6 +30,7 @@ export const AppNavigator = () => {
         headerShown: false,
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromCenter,
       }}>
+      {pin && <Screen name="PinScreen" component={PinScreen} />}
       <Screen name="HomeNavigator" component={HomeNavigator} />
       <Screen name="ShowScreen" component={ShowScreen} />
       <Screen name="SeasonScreen" component={SeasonScreen} />
