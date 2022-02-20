@@ -67,7 +67,7 @@ export const ShowScreen = () => {
 
     try {
       const seasons = await getSeasons(params.id);
-      setSeasons(seasons);
+      setSeasons(seasons.reverse());
     } catch (error) {}
 
     setIsSeasonsLoading(false);
@@ -129,7 +129,7 @@ export const ShowScreen = () => {
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.container} ref={scrollRef}>
-        <ShowPoster uri={params.image.medium} style={styles.image} />
+        <ShowPoster uri={params.image?.medium} style={styles.image} />
         <Headline style={styles.name} selectable>
           {params.name}{' '}
           <Title style={styles.premiered}>({premieredYear})</Title>
