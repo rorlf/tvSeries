@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 // Services
 import { onPressFavorite, searchShows, showError } from 'services';
 
-// Utils
-import { numPosterColumns } from 'shared/utils/poster';
+// Constants
+import { numPosterColumns } from 'shared/constants';
 
 // Hooks
 import { useNavigation } from '@react-navigation/native';

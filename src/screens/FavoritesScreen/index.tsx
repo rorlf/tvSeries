@@ -4,8 +4,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { onPressFavorite } from 'services';
 
 // Utils
-import { numPosterColumns } from 'shared/utils/poster';
 import { normalize } from 'shared/utils/string';
+
+// Constants
+import { numPosterColumns } from 'shared/constants';
 
 // Hooks
 import { useNavigation } from '@react-navigation/native';

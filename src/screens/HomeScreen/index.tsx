@@ -3,8 +3,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 // Services
 import { getShows, onPressFavorite, showError } from 'services';
 
-// Utils
-import { numPosterColumns } from 'shared/utils/poster';
+// Constants
+import { numPosterColumns } from 'shared/constants';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
