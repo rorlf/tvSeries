@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import Storage, { useStorageValue } from 'data/Storage';
 
 // Components
-import { KeyboardAvoidingView, Modal, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Modal, View } from 'react-native';
 import { BackButton, PinInput } from 'shared/components';
 import { Option } from './components';
 
@@ -38,6 +38,18 @@ export const MenuScreen = () => {
   }
 
   function onDarkModeValueChange(value: boolean) {
+    if (value === false) {
+      Alert.alert(
+        'Warning',
+        'The light mode is a proof of concept\n Wanna proceed?',
+        [{ text: 'Cancel' }, { text: 'OK', onPress: () => changeTheme(value) }],
+      );
+      return;
+    }
+    changeTheme(value);
+  }
+
+  function changeTheme(value: boolean) {
     dispatch(toggleTheme());
     Storage.storeData('@darkMode', value);
   }
