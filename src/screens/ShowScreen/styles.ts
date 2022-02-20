@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
@@ -15,12 +16,12 @@ export default function useStyles() {
     },
     backButton: {
       position: 'absolute',
-      top: metrics.spacing(4),
-      left: metrics.spacing(4),
+      top: spacing(4),
+      left: spacing(4),
     },
     favoriteContainer: {
-      top: metrics.spacing(4),
-      right: metrics.spacing(4),
+      top: spacing(4),
+      right: spacing(4),
       position: 'absolute',
       backgroundColor: colors.overlay,
       height: 32,
@@ -34,38 +35,38 @@ export default function useStyles() {
     },
     name: {
       textAlign: 'center',
-      paddingTop: metrics.spacing(4),
-      paddingHorizontal: metrics.spacing(8),
+      paddingTop: spacing(4),
+      paddingHorizontal: spacing(8),
     },
     premiered: {
       fontWeight: '300',
     },
     sections: {
-      paddingTop: metrics.spacing(6),
+      paddingTop: spacing(6),
     },
     section: {
-      marginTop: metrics.spacing(4),
+      marginTop: spacing(4),
       paddingHorizontal: metrics.screenPadding,
     },
     sectionContent: {
-      paddingHorizontal: metrics.spacing(8),
-      paddingTop: metrics.spacing(2),
+      paddingHorizontal: spacing(8),
+      paddingTop: spacing(2),
     },
     seasons: {
-      marginTop: metrics.spacing(2),
+      marginTop: spacing(2),
     },
     seasonsContent: {
-      paddingHorizontal: metrics.spacing(4),
+      paddingHorizontal: spacing(4),
     },
     episodesContainer: {
-      marginTop: metrics.spacing(2),
+      marginTop: spacing(2),
     },
     sectionTitleContainer: {
       backgroundColor: colors.overlay,
-      paddingHorizontal: metrics.spacing(2),
-      paddingVertical: metrics.spacing(1),
-      marginRight: metrics.spacing(1),
-      borderRadius: metrics.spacing(1),
+      paddingHorizontal: spacing(2),
+      paddingVertical: spacing(1),
+      marginRight: spacing(1),
+      borderRadius: spacing(1),
     },
     footer: {
       marginBottom: metrics.footer,

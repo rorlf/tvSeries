@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
@@ -6,12 +7,12 @@ export default function useStyles() {
 
   return StyleSheet.create({
     container: {
-      marginBottom: metrics.spacing(2),
+      marginBottom: spacing(2),
       width: metrics.posterWidth,
     },
     favoriteContainer: {
-      top: metrics.spacing(1),
-      left: metrics.spacing(1),
+      top: spacing(1),
+      left: spacing(1),
       position: 'absolute',
       backgroundColor: colors.overlay,
       height: 32,
@@ -23,11 +24,11 @@ export default function useStyles() {
     name: {
       textAlign: 'center',
       flex: 1,
-      paddingHorizontal: metrics.spacing(2),
+      paddingHorizontal: spacing(2),
     },
     info: {
       backgroundColor: colors.posterInfoBackground,
-      paddingVertical: metrics.spacing(3),
+      paddingVertical: spacing(3),
     },
   });
 }

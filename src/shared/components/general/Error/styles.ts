@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
-  const { metrics, colors } = useTheme();
+  const { colors } = useTheme();
 
   return StyleSheet.create({
     container: {
@@ -10,12 +11,12 @@ export default function useStyles() {
       alignItems: 'center',
     },
     tryAgainContainer: {
-      borderRadius: metrics.spacing(3),
+      borderRadius: spacing(3),
       borderWidth: 1,
       borderColor: colors.inactiveIcon,
-      paddingHorizontal: metrics.spacing(4),
-      paddingVertical: metrics.spacing(2),
-      marginTop: metrics.spacing(10),
+      paddingHorizontal: spacing(4),
+      paddingVertical: spacing(2),
+      marginTop: spacing(10),
     },
   });
 }

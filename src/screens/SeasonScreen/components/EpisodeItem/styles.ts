@@ -1,16 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from 'store/slices/themeSlice';
+import { spacing } from 'shared/utils/styles';
 
 export default function useStyles() {
-  const { metrics } = useTheme();
-
   return StyleSheet.create({
     section: {
-      marginTop: metrics.spacing(4),
+      marginTop: spacing(4),
     },
     sectionContent: {
-      paddingHorizontal: metrics.spacing(4),
-      paddingTop: metrics.spacing(2),
+      paddingHorizontal: spacing(4),
+      paddingTop: spacing(2),
       flexDirection: 'row',
       alignItems: 'center',
     },

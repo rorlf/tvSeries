@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
@@ -15,12 +16,12 @@ export default function useStyles() {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginVertical: metrics.spacing(2),
+      marginVertical: spacing(2),
     },
     modalBackButton: {
       position: 'absolute',
-      left: metrics.spacing(4),
-      top: metrics.spacing(4),
+      left: spacing(4),
+      top: spacing(4),
     },
     pinModalContainer: {
       flex: 1,

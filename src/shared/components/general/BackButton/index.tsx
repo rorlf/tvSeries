@@ -10,20 +10,23 @@ import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { useTheme } from 'store/slices/themeSlice';
 import { useNavigation } from '@react-navigation/native';
 
+// Utils
+import { spacing } from 'shared/utils/styles';
+
 export const BackButton = (props: TouchableOpacityProps) => {
   const { goBack } = useNavigation();
   const { onPress = goBack, ...touchableOpacityProps } = props;
-  const { colors, metrics } = useTheme();
+  const { colors } = useTheme();
 
   return (
     <TouchableOpacity
       onPress={onPress}
       {...touchableOpacityProps}
       hitSlop={{
-        bottom: metrics.spacing(1),
-        left: metrics.spacing(1),
-        right: metrics.spacing(1),
-        top: metrics.spacing(1),
+        bottom: spacing(1),
+        left: spacing(1),
+        right: spacing(1),
+        top: spacing(1),
       }}>
       <Icon
         name="arrow-left-circle-outline"

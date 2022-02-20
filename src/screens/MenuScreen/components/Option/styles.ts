@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from 'store/slices/themeSlice';
+import { spacing } from 'shared/utils/styles';
 
 export default function useStyles() {
-  const { metrics } = useTheme();
-
   return StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginVertical: metrics.spacing(2),
+      marginVertical: spacing(2),
     },
   });
 }

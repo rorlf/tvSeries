@@ -1,7 +1,6 @@
 import { deviceWidth } from 'services/DeviceService';
 import { numPosterColumns } from 'shared/constants';
-
-const baseline = 4;
+import { spacing } from 'shared/utils/styles';
 
 const screenPadding = spacing(4);
 const posterMinWidth = 150;
@@ -13,13 +12,8 @@ export const metrics = {
   posterMinWidth,
   posterWidth,
   posterMargin,
-  spacing,
   footer: 80,
 };
-
-function spacing(value: number) {
-  return value * baseline;
-}
 
 function calculatePosterWidth() {
   const posterAvailableWidth =

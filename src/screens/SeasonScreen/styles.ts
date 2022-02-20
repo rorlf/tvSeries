@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
@@ -14,26 +15,26 @@ export default function useStyles() {
       padding: metrics.screenPadding,
     },
     header: {
-      marginBottom: metrics.spacing(4),
+      marginBottom: spacing(4),
     },
     backButton: {
       position: 'absolute',
-      left: metrics.spacing(4),
-      top: metrics.spacing(4),
+      left: spacing(4),
+      top: spacing(4),
     },
     image: {
       alignSelf: 'center',
     },
     name: {
       textAlign: 'center',
-      paddingTop: metrics.spacing(4),
-      paddingHorizontal: metrics.spacing(8),
+      paddingTop: spacing(4),
+      paddingHorizontal: spacing(8),
     },
     seasonNumber: {
       fontWeight: '300',
     },
     loading: {
-      paddingVertical: metrics.spacing(5),
+      paddingVertical: spacing(5),
     },
     footer: {
       marginBottom: metrics.footer,

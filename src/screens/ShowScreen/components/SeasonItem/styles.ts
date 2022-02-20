@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { spacing } from 'shared/utils/styles';
 import { useTheme } from 'store/slices/themeSlice';
 
 export default function useStyles() {
@@ -6,11 +7,11 @@ export default function useStyles() {
 
   return StyleSheet.create({
     container: {
-      marginHorizontal: metrics.spacing(1),
+      marginHorizontal: spacing(1),
       width: metrics.posterWidth,
     },
     caption: {
-      padding: metrics.spacing(1),
+      padding: spacing(1),
     },
   });
 }
