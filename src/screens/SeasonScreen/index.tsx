@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Services
-import { getEpisodes } from 'services';
+import { getSeasonEpisodes } from 'services';
 
 // Components
 import { FlatList, View } from 'react-native';
@@ -43,7 +43,7 @@ export const SeasonScreen = () => {
     setIsEpisodesLoading(true);
 
     try {
-      const episodes = await getEpisodes(params.season.id);
+      const episodes = await getSeasonEpisodes(params.season.id);
       setEpisodes(episodes);
     } catch (error) {}
 
@@ -52,7 +52,7 @@ export const SeasonScreen = () => {
 
   function formatEpisodes(): EpisodeItemProps[] {
     return episodes.map(episode => {
-      const title = `${episode.number}. ${episode.name}`;
+      const title = `${episode.number ?? 'S'}. ${episode.name}`;
       const description = episode.summary
         ? removeTagsFromHtmlString(episode.summary)
         : `We don't have a summary for ${episode.name} yet.`;
