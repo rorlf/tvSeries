@@ -7,7 +7,7 @@ export function onPressFavorite(show: Show) {
   if (prevFavorites) {
     const { isRemove, newFavorites } = createNewFavorites(prevFavorites, show);
     Storage.storeData('@favorites', newFavorites);
-    showSuccessMessage(isRemove);
+    showSuccessMessage(isRemove, show.name);
     return;
   }
 
@@ -36,10 +36,10 @@ function createNewFavorites(prevFavorites: Show[], show: Show) {
   };
 }
 
-function showSuccessMessage(isRemove: boolean) {
+function showSuccessMessage(isRemove: boolean, name: String) {
   if (isRemove) {
-    showMessage('Removed from Favorites');
+    showMessage(`Removed ${name} from Favorites`);
     return;
   }
-  showMessage('Added to Favorites');
+  showMessage(`Added ${name} to Favorites`);
 }
