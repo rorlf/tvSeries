@@ -8,15 +8,16 @@ import { useTheme } from 'store/slices/themeSlice';
 import { useStorageValue } from 'data/Storage';
 
 // Components
-import { KeyboardAvoidingView, Modal, Switch, View } from 'react-native';
-import { BackButton, PinInput, SubHeading } from 'shared/components';
+import { KeyboardAvoidingView, Modal, View } from 'react-native';
+import { BackButton, PinInput } from 'shared/components';
+import { Option } from './components';
 
 // Styles
 import useStyles from './styles';
 
 export const MenuScreen = () => {
   const styles = useStyles();
-  const { isDark, colors } = useTheme();
+  const { isDark } = useTheme();
   const [isFingerprintAvailable, setIsFingerprintAvailable] = useState(false);
   const [isPinInputVisible, setIsPinInputVisible] = useState(false);
   const [pin] = useStorageValue('@pin');
@@ -60,45 +61,24 @@ export const MenuScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.optionContainer}>
-        <SubHeading>Dark mode</SubHeading>
-        <Switch
-          value={isDark}
-          onValueChange={onDarkModeValueChange}
-          thumbColor={isDark ? colors.primary : colors.placeholder}
-          trackColor={{
-            false: colors.overlay,
-            true: colors.placeholder,
-          }}
-        />
-      </View>
-      <View style={styles.optionContainer}>
-        <SubHeading>Secured with Pin</SubHeading>
-        <Switch
-          value={hasPin}
-          onValueChange={securedWithPinValueChange}
-          thumbColor={hasPin ? colors.primary : colors.placeholder}
-          trackColor={{
-            false: colors.overlay,
-            true: colors.placeholder,
-          }}
-        />
-      </View>
-      {shouldDisplayUseFigerprint && (
-        <View style={styles.optionContainer}>
-          <SubHeading>Use Figerprint</SubHeading>
-          <Switch
-            value={useFigerprint}
-            onValueChange={useFigerprintValueChange}
-            thumbColor={useFigerprint ? colors.primary : colors.placeholder}
-            trackColor={{
-              false: colors.overlay,
-              true: colors.placeholder,
-            }}
-          />
-        </View>
-      )}
+      <Option
+        label="Dark mode"
+        value={isDark}
+        onValueChange={onDarkModeValueChange}
+      />
 
+      <Option
+        label="Secured with Pin"
+        value={hasPin}
+        onValueChange={securedWithPinValueChange}
+      />
+      {shouldDisplayUseFigerprint && (
+        <Option
+          label="Use Figerprint"
+          value={useFigerprint}
+          onValueChange={useFigerprintValueChange}
+        />
+      )}
       <Modal visible={isPinInputVisible} onRequestClose={closeModal}>
         <KeyboardAvoidingView style={styles.pinModalContainer}>
           <BackButton onPress={closeModal} style={styles.modalBackButton} />
