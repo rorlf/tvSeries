@@ -11,13 +11,12 @@ import { useTheme } from 'store/slices/themeSlice';
 import { useNavigation } from '@react-navigation/native';
 
 // Components
-import { ShowItem } from './components';
 import { ActivityIndicator, FlatList, View } from 'react-native';
-import { Error } from 'shared/components';
+import { Error, PosterWithName } from 'shared/components';
 
 // Types
-import { ShowItemProps } from './components/ShowItem/types';
 import { Show } from 'services/TvMazeService/types';
+import { PosterWithNameProps } from 'shared/components/general/PosterWithName/types';
 
 // Styles
 import useStyles from './styles';
@@ -40,6 +39,7 @@ export const HomeScreen = () => {
 
   async function obtainTvSeries() {
     setIsLoading(true);
+    setHasError(false);
     try {
       const shows = await getShows(page);
       setShows(prevShows => {
@@ -55,21 +55,25 @@ export const HomeScreen = () => {
     setIsLoading(false);
   }
 
-  function createShowItems(): ShowItemProps[] {
+  function createShowItems(): PosterWithNameProps[] {
     //   @todo adicionar isFavorite
     return shows.map(show => {
       return {
-        ...show,
+        id: show.id.toString(),
+        name: show.name,
+        uri: show.image?.medium,
         onPressFavorite: () => null,
-        onPressTvSerie: () => navigate('ShowScreen', show),
+        onPress: () => navigate('ShowScreen', show),
         isFavorite: true,
       };
     });
   }
 
-  const keyExtractor = useCallback((show: Show) => show.id.toString(), []);
+  const keyExtractor = useCallback((show: PosterWithNameProps) => show.id, []);
   const renderItem = useCallback(
-    ({ item: show }) => <ShowItem {...show} />,
+    ({ item: show }: { item: PosterWithNameProps }) => (
+      <PosterWithName {...show} />
+    ),
     [],
   );
   const onEndReached = useCallback(() => {
