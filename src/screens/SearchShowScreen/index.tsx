@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Services
-import { searchShows, showError } from 'services';
+import { onPressFavorite, searchShows, showError } from 'services';
 
 // Utils
 import { numPosterColumns } from 'shared/utils/poster';
@@ -59,20 +59,21 @@ export const SearchShowScreen = () => {
   }
 
   function createShowItems(): PosterWithNameProps[] {
-    //   @todo adicionar isFavorite
     return shows.map(show => {
       return {
-        id: show.id.toString(),
+        id: show.id,
         name: show.name,
         uri: show.image?.medium,
-        onPressFavorite: () => null,
+        onPressFavorite: () => onPressFavorite(show),
         onPress: () => navigate('ShowScreen', show),
-        isFavorite: true,
       };
     });
   }
 
-  const keyExtractor = useCallback((show: PosterWithNameProps) => show.id, []);
+  const keyExtractor = useCallback(
+    (show: PosterWithNameProps) => show.id.toString(),
+    [],
+  );
   const renderItem = useCallback(
     ({ item: show }: { item: PosterWithNameProps }) => (
       <PosterWithName {...show} />

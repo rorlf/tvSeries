@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 // Dependencies
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,17 +15,23 @@ import { useTheme } from 'store/slices/themeSlice';
 
 // Styles
 import useStyles from './styles';
+import { useStorageValue } from 'data/Storage';
 
 export const PosterWithName = ({
+  id,
   onPress,
   uri,
   name,
-  isFavorite,
   onPressFavorite,
   style,
 }: PosterWithNameProps) => {
   const styles = useStyles();
   const { colors } = useTheme();
+  const [favorites] = useStorageValue('@favorites');
+  const isFavorite = useMemo(
+    () => !!favorites?.some(favorite => favorite.id === id),
+    [favorites, id],
+  );
 
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
