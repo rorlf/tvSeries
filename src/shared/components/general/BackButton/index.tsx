@@ -28,11 +28,7 @@ export const BackButton = (props: TouchableOpacityProps) => {
         right: spacing(1),
         top: spacing(1),
       }}>
-      <Icon
-        name="arrow-left-circle-outline"
-        color={colors.textPrimary}
-        size={32}
-      />
+      <Icon name="arrow-left" color={colors.textPrimary} size={40} />
     </TouchableOpacity>
   );
 };
