@@ -72,7 +72,10 @@ export const ShowScreen = () => {
 
   const schedule = useMemo(() => createSchedule(), [params]);
   const sinopse = useMemo(
-    () => removeTagsFromHtmlString(params.summary),
+    () =>
+      params.summary
+        ? removeTagsFromHtmlString(params.summary)
+        : `We don't have a summary for ${params.name} yet.`,
     [params],
   );
   const genres = useMemo(() => params.genres.join(' | '), [params]);
