@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Services
-import { getSeasonEpisodes } from 'services';
+import { getSeasonEpisodes, showError } from 'services';
 
 // Components
 import { FlatList, View } from 'react-native';
 import {
   BackButton,
+  Error,
   Headline,
   Loading,
   ShowPoster,
@@ -31,6 +32,7 @@ type ScreenRouteProp = RouteProp<AppNavigatorParams, 'SeasonScreen'>;
 export const SeasonScreen = () => {
   const [isEpisodesLoading, setIsEpisodesLoading] = useState(true);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [hasError, setHasError] = useState(false);
   const { params } = useRoute<ScreenRouteProp>();
   const styles = useStyles();
   const episodesFormatted = useMemo(() => formatEpisodes(), [episodes]);
@@ -41,11 +43,15 @@ export const SeasonScreen = () => {
 
   async function obtainEpisodes() {
     setIsEpisodesLoading(true);
+    setHasError(false);
 
     try {
       const episodes = await getSeasonEpisodes(params.season.id);
       setEpisodes(episodes);
-    } catch (error) {}
+    } catch (error) {
+      showError('Error getting episodes');
+      setHasError(true);
+    }
 
     setIsEpisodesLoading(false);
   }
@@ -84,14 +90,18 @@ export const SeasonScreen = () => {
     [params],
   );
 
-  const renderFooter = useCallback(
-    () => (
-      <View style={styles.footer}>
-        {isEpisodesLoading && <Loading style={styles.loading} />}
-      </View>
-    ),
-    [isEpisodesLoading],
-  );
+  const renderFooter = useCallback(() => <View style={styles.footer} />, []);
+
+  const renderEmpty = useCallback(() => {
+    if (isEpisodesLoading) return <Loading style={styles.loading} />;
+
+    if (hasError)
+      return (
+        <Error onPressRetry={obtainEpisodes} message="Error getting episodes" />
+      );
+
+    return null;
+  }, [isEpisodesLoading, hasError]);
 
   return (
     <View style={styles.screen}>
@@ -102,6 +112,7 @@ export const SeasonScreen = () => {
         ListHeaderComponent={renderHeader}
         renderItem={renderItem}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={renderEmpty}
       />
       <BackButton style={styles.backButton} />
     </View>
