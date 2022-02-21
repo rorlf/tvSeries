@@ -190,8 +190,7 @@ export const ShowScreen = () => {
   }
 
   function onPressEpisode(episode: Episode) {
-    // @todo
-    // navigate('SeasonScreen', { season, showName: params.name });
+    navigate('EpisodeScreen', episode);
   }
 
   const renderSeasonItem = useCallback(

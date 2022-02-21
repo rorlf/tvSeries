@@ -1,3 +1,4 @@
+export * from './EpisodeScreen';
 export * from './FavoritesScreen';
 export * from './HomeScreen';
 export * from './MenuScreen';

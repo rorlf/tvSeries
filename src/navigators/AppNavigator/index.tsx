@@ -16,7 +16,7 @@ import { useStorageValue } from 'data/Storage';
 import { HomeNavigator } from 'navigators/HomeNavigator';
 
 // Screens
-import { PinScreen, SeasonScreen, ShowScreen } from 'screens';
+import { EpisodeScreen, PinScreen, SeasonScreen, ShowScreen } from 'screens';
 
 const { Navigator, Screen } = createStackNavigator<AppNavigatorParams>();
 
@@ -34,6 +34,7 @@ export const AppNavigator = () => {
       <Screen name="HomeNavigator" component={HomeNavigator} />
       <Screen name="ShowScreen" component={ShowScreen} />
       <Screen name="SeasonScreen" component={SeasonScreen} />
+      <Screen name="EpisodeScreen" component={EpisodeScreen} />
     </Navigator>
   );
 };
