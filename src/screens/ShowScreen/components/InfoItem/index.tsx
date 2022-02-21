@@ -8,20 +8,23 @@ import { Body1, Body2 } from 'shared/components';
 import useStyles from './styles';
 
 interface Props {
-  label;
-  value;
-  onPressValue?;
+  label: string;
+  value?: string | number | null;
+  onPressValue?: () => void;
 }
 
 export const InfoItem = ({ label, value, onPressValue }: Props) => {
   const styles = useStyles(!!onPressValue);
 
-  return (
-    <View style={styles.container}>
-      <Body2>{label}: </Body2>
-      <Body1 style={styles.value} onPress={onPressValue}>
-        {value}
-      </Body1>
-    </View>
-  );
+  if (value)
+    return (
+      <View style={styles.container}>
+        <Body2>{label}: </Body2>
+        <Body1 style={styles.value} onPress={onPressValue}>
+          {value}
+        </Body1>
+      </View>
+    );
+
+  return null;
 };

@@ -78,9 +78,9 @@ export const ShowScreen = () => {
         : `We don't have a summary for ${params.name} yet.`,
     [params],
   );
-  const genres = useMemo(() => params.genres.join(' | '), [params]);
+  const genres = useMemo(() => params.genres?.join(' | '), [params]);
   const premieredYear = useMemo(
-    () => params.premiered.substring(0, 4),
+    () => params.premiered?.substring(0, 4),
     [params],
   );
 
@@ -224,28 +224,24 @@ export const ShowScreen = () => {
         <ShowPoster uri={params.image?.medium} style={styles.image} />
         <Headline style={styles.name} selectable>
           {params.name}{' '}
-          <Title style={styles.premiered}>({premieredYear})</Title>
+          {premieredYear && (
+            <Title style={styles.premiered}>({premieredYear})</Title>
+          )}
         </Headline>
         <View style={styles.sections}>
           <Section style={styles.section} title="Show Info">
             <View style={styles.sectionContent}>
-              {params.network?.name && (
-                <InfoItem label="Network" value={params.network.name} />
-              )}
-              {schedule && <InfoItem label="Schedule" value={schedule} />}
+              <InfoItem label="Network" value={params?.network?.name} />
+              <InfoItem label="Schedule" value={schedule} />
               <InfoItem label="Status" value={params.status} />
               <InfoItem label="Show Type" value={params.type} />
               <InfoItem label="Genres" value={genres} />
-              {params.officialSite && (
-                <InfoItem
-                  label="Official site"
-                  value={params.officialSite}
-                  onPressValue={onPressSite}
-                />
-              )}
-              {params.rating?.average && (
-                <InfoItem label="Rating" value={params.rating.average} />
-              )}
+              <InfoItem
+                label="Official site"
+                value={params.officialSite}
+                onPressValue={onPressSite}
+              />
+              <InfoItem label="Rating" value={params?.rating?.average} />
             </View>
           </Section>
           <Section style={styles.section} title="Summary">
