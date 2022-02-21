@@ -12,7 +12,7 @@ export default function useStyles() {
     },
     favoriteContainer: {
       top: spacing(1),
-      left: spacing(1),
+      right: spacing(1),
       position: 'absolute',
       backgroundColor: colors.overlay,
       height: 32,
