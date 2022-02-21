@@ -71,7 +71,7 @@ export const ShowScreen = () => {
   );
 
   const schedule = useMemo(() => createSchedule(), [params]);
-  const sinopse = useMemo(
+  const summary = useMemo(
     () =>
       params.summary
         ? removeTagsFromHtmlString(params.summary)
@@ -248,9 +248,9 @@ export const ShowScreen = () => {
               )}
             </View>
           </Section>
-          <Section style={styles.section} title="Sinopse">
+          <Section style={styles.section} title="Summary">
             <View style={styles.sectionContent}>
-              <Body1>{sinopse}</Body1>
+              <Body1>{summary}</Body1>
             </View>
           </Section>
           <Section style={styles.section} title="Seasons">
