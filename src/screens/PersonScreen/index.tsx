@@ -7,7 +7,7 @@ import {
   Body1,
   Headline,
   Section,
-  ShowPoster,
+  Poster,
   LoadingAndErrorHandler,
 } from 'shared/components';
 import { ShowItem } from './components';
@@ -99,7 +99,7 @@ export const PersonScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <ShowPoster uri={params.image?.medium} style={styles.image} />
+      <Poster uri={params.image?.medium} style={styles.image} />
       <Headline style={styles.name} selectable>
         {params.name}
       </Headline>

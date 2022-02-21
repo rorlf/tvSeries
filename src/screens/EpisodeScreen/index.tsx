@@ -7,7 +7,7 @@ import {
   Body1,
   Body2,
   Headline,
-  ShowPoster,
+  Poster,
   Title,
 } from 'shared/components';
 
@@ -33,7 +33,7 @@ export const EpisodeScreen = () => {
 
   return (
     <View style={styles.screen}>
-      <ShowPoster uri={params.image?.medium} style={styles.image} />
+      <Poster uri={params.image?.medium} style={styles.image} />
       <Headline style={styles.name} selectable>
         {params.name}{' '}
         <Title style={styles.seasonNumber}>({`Season ${params.season}`})</Title>

@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import { View } from 'react-native';
-import { Body1, Section, ShowPoster } from 'shared/components';
+import { Body1, Section, Poster } from 'shared/components';
 
 // Types
 import { EpisodeItemProps } from './types';
@@ -20,7 +20,7 @@ export const EpisodeItem = ({
   return (
     <Section style={styles.section} title={title}>
       <View style={styles.sectionContent}>
-        <ShowPoster uri={image?.medium} style={styles.image} />
+        <Poster uri={image?.medium} style={styles.image} />
         <Body1 style={styles.description}>{description}</Body1>
       </View>
     </Section>

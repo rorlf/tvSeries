@@ -3,7 +3,7 @@ export * from './Error';
 export * from './Loading';
 export * from './LoadingAndErrorHandler';
 export * from './PinInput';
+export * from './Poster';
 export * from './PosterWithName';
 export * from './SearchInput';
 export * from './Section';
-export * from './ShowPoster';

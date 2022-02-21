@@ -11,7 +11,7 @@ interface Props {
   uri?: string;
   style?: StyleProp<ImageStyle>;
 }
-export const ShowPoster = ({ style, uri }: Props) => {
+export const Poster = ({ style, uri }: Props) => {
   const styles = useStyles();
 
   if (uri) return <Image style={[styles.image, style]} source={{ uri }} />;

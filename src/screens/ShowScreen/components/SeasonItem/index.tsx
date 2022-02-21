@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import { Pressable } from 'react-native';
-import { Caption, ShowPoster } from 'shared/components';
+import { Caption, Poster } from 'shared/components';
 
 // Types
 import { SeasonItemProps } from './types';
@@ -15,7 +15,7 @@ export const SeasonItem = ({ image, number, onPress }: SeasonItemProps) => {
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <ShowPoster uri={image?.medium} />
+      <Poster uri={image?.medium} />
       <Caption style={styles.caption}>Season {number} </Caption>
     </Pressable>
   );

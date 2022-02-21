@@ -25,7 +25,7 @@ import {
   Body2,
   Headline,
   Section,
-  ShowPoster,
+  Poster,
   Title,
   LoadingAndErrorHandler,
 } from 'shared/components';
@@ -217,7 +217,7 @@ export const ShowScreen = () => {
   return (
     <View style={styles.screen}>
       <ScrollView style={styles.container}>
-        <ShowPoster uri={params.image?.medium} style={styles.image} />
+        <Poster uri={params.image?.medium} style={styles.image} />
         <Headline style={styles.name} selectable>
           {params.name}{' '}
           {premieredYear && (

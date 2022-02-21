@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import { Pressable } from 'react-native';
-import { Caption, ShowPoster } from 'shared/components';
+import { Caption, Poster } from 'shared/components';
 
 // Types
 import { ShowItemItemProps } from './types';
@@ -15,7 +15,7 @@ export const ShowItem = ({ image, name, onPress }: ShowItemItemProps) => {
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <ShowPoster uri={image?.medium} />
+      <Poster uri={image?.medium} />
       <Caption style={styles.caption}>{name}</Caption>
     </Pressable>
   );

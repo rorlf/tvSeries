@@ -10,7 +10,7 @@ import {
   Error,
   Headline,
   Loading,
-  ShowPoster,
+  Poster,
   Title,
 } from 'shared/components';
 import { EpisodeItem } from './components';
@@ -78,7 +78,7 @@ export const SeasonScreen = () => {
   const renderHeader = useCallback(
     () => (
       <View style={styles.header}>
-        <ShowPoster uri={params.season.image?.medium} style={styles.image} />
+        <Poster uri={params.season.image?.medium} style={styles.image} />
         <Headline style={styles.name} selectable>
           {params.showName}{' '}
           <Title style={styles.seasonNumber}>

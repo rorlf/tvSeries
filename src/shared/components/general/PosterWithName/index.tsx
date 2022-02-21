@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Components
 import { Pressable, TouchableOpacity, View } from 'react-native';
-import { Body2, ShowPoster } from 'shared/components';
+import { Body2, Poster } from 'shared/components';
 
 // Types
 import { PosterWithNameProps } from './types';
@@ -36,7 +36,7 @@ export const PosterWithName = ({
 
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
-      <ShowPoster uri={uri} />
+      <Poster uri={uri} />
       <View style={styles.info}>
         <Body2 style={styles.name} numberOfLines={1}>
           {name}
