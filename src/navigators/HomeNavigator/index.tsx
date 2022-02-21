@@ -10,6 +10,7 @@ import {
   FavoritesScreen,
   HomeScreen,
   MenuScreen,
+  PeopleSearchScreen,
   SearchShowScreen,
 } from 'screens';
 
@@ -63,6 +64,16 @@ export const HomeNavigator = () => {
           tabBarLabel: 'Favorites',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcon name="heart" color={color} size={size} />
+          ),
+        }}
+      />
+      <Screen
+        name="PeopleSearchScreen"
+        component={PeopleSearchScreen}
+        options={{
+          tabBarLabel: 'People',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcon name="person-search" color={color} size={size} />
           ),
         }}
       />

@@ -7,4 +7,5 @@ export interface PosterWithNameProps {
   onPress?: () => void;
   onPressFavorite?: () => void;
   style?: StyleProp<ImageStyle>;
+  hideFavoriteButton?: boolean;
 }

@@ -3,4 +3,5 @@ export type HomeNavigatorParams = {
   FavoritesScreen: undefined;
   MenuScreen: undefined;
   SearchShowScreen: undefined;
+  PeopleSearchScreen: undefined;
 };

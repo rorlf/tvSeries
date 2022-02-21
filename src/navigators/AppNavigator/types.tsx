@@ -1,6 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { HomeNavigatorParams } from 'navigators/HomeNavigator/types';
-import { Episode, Season, Show } from 'services/TvMazeService/types';
+import { Episode, Person, Season, Show } from 'services/TvMazeService/types';
 
 export type AppNavigatorParams = {
   HomeNavigator: NavigatorScreenParams<HomeNavigatorParams>;
@@ -8,6 +8,7 @@ export type AppNavigatorParams = {
   ShowScreen: Show;
   SeasonScreen: { season: Season; showName: string };
   EpisodeScreen: Episode;
+  PersonScreen: Person;
 };
 
 declare global {

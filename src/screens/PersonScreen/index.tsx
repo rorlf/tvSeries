@@ -1,0 +1,116 @@
+import React, { useCallback, useEffect, useState } from 'react';
+
+// Components
+import { FlatList, View } from 'react-native';
+import { BackButton, Headline, Section, ShowPoster } from 'shared/components';
+import { ShowItem } from './components';
+import { LoadingAndErrorHandler } from 'screens/ShowScreen/components';
+
+// Services
+import {
+  getPersonCastCredits,
+  getPersonCrewCredits,
+  showError,
+} from 'services';
+
+// Types
+import { AppNavigatorParams } from 'navigators/AppNavigator/types';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import {
+  PersonCastCredits,
+  PersonCrewCredits,
+  Show,
+} from 'services/TvMazeService/types';
+
+// Styles
+import useStyles from './styles';
+
+type ScreenRouteProp = RouteProp<AppNavigatorParams, 'PersonScreen'>;
+
+export const PersonScreen = () => {
+  const { navigate } = useNavigation();
+  const { params } = useRoute<ScreenRouteProp>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [shows, setShows] = useState<Show[]>([]);
+  const styles = useStyles();
+
+  useEffect(() => {
+    obtainShows();
+  }, []);
+
+  async function obtainShows() {
+    setIsLoading(true);
+    setHasError(false);
+    setShows([]);
+    try {
+      const castCredits = await getPersonCastCredits(params.id);
+      const crewCredits = await getPersonCrewCredits(params.id);
+      const shows = createShows(castCredits, crewCredits);
+
+      setShows(shows);
+    } catch (error) {
+      showError('Error searching shows');
+      setHasError(true);
+    }
+    setIsLoading(false);
+  }
+
+  function createShows(
+    castCredits: PersonCastCredits[],
+    crewCredits: PersonCrewCredits[],
+  ) {
+    const shows: Show[] = [];
+    castCredits.forEach(credit => {
+      if (shows.some(show => show.id === credit._embedded.show.id)) return;
+      shows.push(credit._embedded.show);
+    });
+
+    crewCredits.forEach(credit => {
+      if (shows.some(show => show.id === credit._embedded.show.id)) return;
+      shows.push(credit._embedded.show);
+    });
+
+    return shows;
+  }
+
+  function onPressShow(show: Show) {
+    navigate('ShowScreen', show);
+  }
+
+  const renderShowItem = useCallback(
+    ({ item: show }) => (
+      <ShowItem onPress={() => onPressShow(show)} {...show} />
+    ),
+    [],
+  );
+
+  return (
+    <View style={styles.screen}>
+      <ShowPoster uri={params.image?.medium} style={styles.image} />
+      <Headline style={styles.name} selectable>
+        {params.name}
+      </Headline>
+      <Section
+        defaultIsCollapsedValue={false}
+        title="Shows"
+        style={styles.section}>
+        <LoadingAndErrorHandler
+          isLoading={isLoading}
+          errorMessage="Error searching shows"
+          hasError={hasError}
+          onPressRetry={obtainShows}>
+          <FlatList
+            data={shows}
+            horizontal
+            style={styles.shows}
+            renderItem={renderShowItem}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.showsContent}
+          />
+        </LoadingAndErrorHandler>
+      </Section>
+      <BackButton style={styles.backButton} />
+    </View>
+  );
+};

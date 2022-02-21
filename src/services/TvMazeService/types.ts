@@ -1,13 +1,13 @@
 export interface Show {
   id: number;
   name: string;
-  type: string;
-  language: string;
-  genres: string[];
-  status: string;
+  type: string | null;
+  language: string | null;
+  genres: string[] | null;
+  status: string | null;
   runtime: number | null;
   averageRuntime: number | null;
-  premiered: string;
+  premiered: string | null;
   ended: string | null;
   officialSite: string | null;
   schedule: {
@@ -51,6 +51,34 @@ export interface Episode {
 export interface SearchedShow {
   show: Show;
   score: number;
+}
+
+export interface Person {
+  id: number;
+  name: string;
+  image: Image | null;
+  birthday: string | null;
+  gender: null;
+}
+
+export interface SearchedPerson {
+  person: Person;
+  score: number;
+}
+
+export interface PersonCastCredits {
+  self: boolean;
+  voice: boolean;
+  _embedded: {
+    show: Show;
+  };
+}
+
+export interface PersonCrewCredits {
+  type: string;
+  _embedded: {
+    show: Show;
+  };
 }
 
 interface Image {

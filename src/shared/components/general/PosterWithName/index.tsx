@@ -24,6 +24,7 @@ export const PosterWithName = ({
   name,
   onPressFavorite,
   style,
+  hideFavoriteButton,
 }: PosterWithNameProps) => {
   const styles = useStyles();
   const { colors } = useTheme();
@@ -41,15 +42,17 @@ export const PosterWithName = ({
           {name}
         </Body2>
       </View>
-      <TouchableOpacity
-        style={styles.favoriteContainer}
-        onPress={onPressFavorite}>
-        <Icon
-          name="heart"
-          color={isFavorite ? colors.favorite : colors.inactiveIcon}
-          size={20}
-        />
-      </TouchableOpacity>
+      {!hideFavoriteButton && (
+        <TouchableOpacity
+          style={styles.favoriteContainer}
+          onPress={onPressFavorite}>
+          <Icon
+            name="heart"
+            color={isFavorite ? colors.favorite : colors.inactiveIcon}
+            size={20}
+          />
+        </TouchableOpacity>
+      )}
     </Pressable>
   );
 };
