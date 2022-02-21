@@ -1,6 +1,7 @@
 export * from './BackButton';
 export * from './Error';
 export * from './Loading';
+export * from './LoadingAndErrorHandler';
 export * from './PinInput';
 export * from './PosterWithName';
 export * from './SearchInput';

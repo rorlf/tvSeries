@@ -27,13 +27,9 @@ import {
   Section,
   ShowPoster,
   Title,
-} from 'shared/components';
-import {
-  EpisodeItem,
-  InfoItem,
   LoadingAndErrorHandler,
-  SeasonItem,
-} from './components';
+} from 'shared/components';
+import { EpisodeItem, InfoItem, SeasonItem } from './components';
 
 // Hooks
 import { useStorageValue } from 'data/Storage';

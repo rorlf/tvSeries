@@ -8,9 +8,9 @@ import {
   Headline,
   Section,
   ShowPoster,
+  LoadingAndErrorHandler,
 } from 'shared/components';
 import { ShowItem } from './components';
-import { LoadingAndErrorHandler } from 'screens/ShowScreen/components';
 
 // Services
 import {
