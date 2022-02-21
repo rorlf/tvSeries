@@ -1,15 +1,28 @@
 import React from 'react';
 
 // Components
-import { TextInput, TextInputProps } from 'react-native';
+import { TextInput } from 'react-native';
+
+// Types
+import { CustomTextInputProps } from './types';
 
 // Styles
 import useStyles from './styles';
 
-const CustomTextInput = ({ style, ...textInputProps }: TextInputProps) => {
+const CustomTextInput = ({
+  innerRef,
+  style,
+  ...textInputProps
+}: CustomTextInputProps) => {
   const styles = useStyles();
 
-  return <TextInput style={[styles.text, style]} {...textInputProps} />;
+  return (
+    <TextInput
+      ref={innerRef}
+      style={[styles.text, style]}
+      {...textInputProps}
+    />
+  );
 };
 
 export { CustomTextInput as TextInput };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 // Dependencies
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -6,11 +6,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 // Components
 import {
-  TextInput,
+  Pressable,
+  TextInput as ReactTextInput,
   TextInputProps,
   TouchableOpacity,
-  View,
 } from 'react-native';
+import { TextInput } from 'shared/components';
 
 // Hooks
 import { useTheme } from 'store/slices/themeSlice';
@@ -30,16 +31,22 @@ export const SearchInput = ({
   ...textInputProps
 }: Props) => {
   const styles = useStyles();
+  const textInputRef = useRef<ReactTextInput>(null);
   const { colors } = useTheme();
 
   function onPressClear() {
     onChangeSearchString('');
   }
 
+  function onPressInput() {
+    textInputRef.current?.focus();
+  }
+
   return (
-    <View style={[styles.container, style]}>
+    <Pressable style={[styles.container, style]} onPress={onPressInput}>
       <MaterialIcon name="search" color={colors.textPrimary} size={28} />
       <TextInput
+        innerRef={textInputRef}
         value={searchString}
         onChangeText={onChangeSearchString}
         style={styles.text}
@@ -56,6 +63,6 @@ export const SearchInput = ({
           />
         </TouchableOpacity>
       )}
-    </View>
+    </Pressable>
   );
 };
