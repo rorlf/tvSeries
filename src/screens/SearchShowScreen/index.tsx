@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 // Services
 import { onPressFavorite, searchShows, showError } from 'services';
@@ -8,7 +8,7 @@ import { numPosterColumns } from 'shared/constants';
 
 // Hooks
 import { useNavigation } from '@react-navigation/native';
-import { useDebounce } from 'shared/hooks';
+import { useDebounce, useNonInitialEffect } from 'shared/hooks';
 
 // Components
 import { FlatList, View } from 'react-native';
@@ -31,7 +31,7 @@ export const SearchShowScreen = () => {
   const styles = useStyles();
   const { navigate } = useNavigation();
   const [searchString, setSearchString] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [shows, setShows] = useState<Show[]>([]);
   const showsItems = useMemo(() => createShowItems(), [shows]);
@@ -39,7 +39,7 @@ export const SearchShowScreen = () => {
   const shouldDisplayError =
     shows.length === 0 && hasError && isLoading === false;
 
-  useEffect(() => {
+  useNonInitialEffect(() => {
     obtainTvSeries();
   }, [searchStringDebounced]);
 
