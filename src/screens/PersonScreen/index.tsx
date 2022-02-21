@@ -2,7 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 // Components
 import { FlatList, View } from 'react-native';
-import { BackButton, Headline, Section, ShowPoster } from 'shared/components';
+import {
+  BackButton,
+  Body1,
+  Headline,
+  Section,
+  ShowPoster,
+} from 'shared/components';
 import { ShowItem } from './components';
 import { LoadingAndErrorHandler } from 'screens/ShowScreen/components';
 
@@ -85,6 +91,12 @@ export const PersonScreen = () => {
     [],
   );
 
+  const renderEmpty = useCallback(() => {
+    if (isLoading) return null;
+
+    return <Body1>No shows found</Body1>;
+  }, [isLoading]);
+
   return (
     <View style={styles.screen}>
       <ShowPoster uri={params.image?.medium} style={styles.image} />
@@ -107,6 +119,7 @@ export const PersonScreen = () => {
             renderItem={renderShowItem}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.showsContent}
+            ListEmptyComponent={renderEmpty}
           />
         </LoadingAndErrorHandler>
       </Section>
