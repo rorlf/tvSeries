@@ -271,25 +271,29 @@ export const ShowScreen = () => {
               isLoading={isEpisodesLoading}
               errorMessage="Error getting episodes"
               hasError={hasEpisodesError}>
-              <View style={styles.episodesContainer}>
-                <FlatList
-                  data={sectionTitles}
-                  horizontal
-                  style={styles.seasons}
-                  renderItem={renderSeasonSectionItem}
-                  showsHorizontalScrollIndicator={false}
-                  contentContainerStyle={styles.seasonsContent}
-                />
-                <View style={styles.sectionContent}>
-                  {episodesToRender.map(episode => (
-                    <EpisodeItem
-                      key={episode.id.toString()}
-                      onPress={() => onPressEpisode(episode)}
-                      {...episode}
-                    />
-                  ))}
+              {sectionTitles.length > 0 ? (
+                <View style={styles.episodesContainer}>
+                  <FlatList
+                    data={sectionTitles}
+                    horizontal
+                    style={styles.seasons}
+                    renderItem={renderSeasonSectionItem}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.seasonsContent}
+                  />
+                  <View style={styles.sectionContent}>
+                    {episodesToRender.map(episode => (
+                      <EpisodeItem
+                        key={episode.id.toString()}
+                        onPress={() => onPressEpisode(episode)}
+                        {...episode}
+                      />
+                    ))}
+                  </View>
                 </View>
-              </View>
+              ) : (
+                <Body1 style={styles.noEpisodes}>No episodes found</Body1>
+              )}
             </LoadingAndErrorHandler>
           </Section>
         </View>

@@ -68,6 +68,9 @@ export default function useStyles() {
       marginRight: spacing(1),
       borderRadius: spacing(1),
     },
+    noEpisodes: {
+      paddingHorizontal: spacing(8),
+    },
     footer: {
       marginBottom: metrics.footer,
     },
