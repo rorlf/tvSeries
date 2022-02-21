@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 // Dependencies
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,35 +15,24 @@ import { useTheme } from 'store/slices/themeSlice';
 import useStyles from './styles';
 
 interface Props {
+  defaultIsCollapsedValue?: boolean;
   title: string;
-  isCollapsed?: boolean;
-  onToggleSection?: (isCollapsed) => void;
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
 }
 
 export const Section = ({
+  defaultIsCollapsedValue = true,
   title,
   children,
-  isCollapsed: controlledIsCollapsed = true,
-  onToggleSection,
   style,
 }: Props) => {
-  const [uncontrolledIsCollapsed, setUncontrolledIsCollapsed] = useState(
-    controlledIsCollapsed,
-  );
+  const [isCollapsed, setIsCollapsed] = useState(defaultIsCollapsedValue);
   const styles = useStyles();
   const { colors } = useTheme();
-  const isCollapsed = useMemo(
-    () => controlledIsCollapsed ?? uncontrolledIsCollapsed,
-    [uncontrolledIsCollapsed, controlledIsCollapsed],
-  );
 
   function onPressToggleSection() {
-    setUncontrolledIsCollapsed(
-      prevUncontrolledIsCollapsed => !prevUncontrolledIsCollapsed,
-    );
-    onToggleSection && onToggleSection(!isCollapsed);
+    setIsCollapsed(prevIsCollapsed => !prevIsCollapsed);
   }
 
   return (
@@ -53,12 +42,12 @@ export const Section = ({
         onPress={onPressToggleSection}>
         <Title>{title}</Title>
         <Icon
-          name={uncontrolledIsCollapsed ? 'chevron-down' : 'chevron-up'}
+          name={isCollapsed ? 'chevron-down' : 'chevron-up'}
           color={colors.textPrimary}
           size={30}
         />
       </TouchableOpacity>
-      <Collapsible collapsed={uncontrolledIsCollapsed}>{children}</Collapsible>
+      <Collapsible collapsed={isCollapsed}>{children}</Collapsible>
     </View>
   );
 };
