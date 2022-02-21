@@ -89,6 +89,7 @@ export const FavoritesScreen = () => {
         searchString={searchString}
       />
       <FlatList
+        keyboardShouldPersistTaps="handled"
         style={styles.content}
         columnWrapperStyle={styles.columnWrapper}
         data={showItemsFiltered}

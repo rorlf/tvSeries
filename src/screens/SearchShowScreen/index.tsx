@@ -108,6 +108,7 @@ export const SearchShowScreen = () => {
         />
       ) : (
         <FlatList
+          keyboardShouldPersistTaps="handled"
           style={styles.content}
           columnWrapperStyle={styles.columnWrapper}
           data={showsItems}
