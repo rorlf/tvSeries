@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 // Services
 import { checkIsFingerprintAvailable, showMessage } from 'services';
@@ -7,9 +7,10 @@ import { checkIsFingerprintAvailable, showMessage } from 'services';
 import { toggleTheme, useTheme } from 'store/slices/themeSlice';
 import { useDispatch } from 'react-redux';
 import Storage, { useStorageValue } from 'data/Storage';
+import { useBackHandler } from 'shared/hooks';
 
 // Components
-import { Alert, KeyboardAvoidingView, Modal, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { BackButton, PinInput } from 'shared/components';
 import { Option } from './components';
 
@@ -33,6 +34,12 @@ export const MenuScreen = () => {
   useEffect(() => {
     verifyFigerprintSensor();
   }, []);
+  const closePinInput = useCallback(() => {
+    setIsPinInputVisible(false);
+    return true;
+  }, []);
+
+  useBackHandler(closePinInput);
 
   async function verifyFigerprintSensor() {
     const isFingerprintAvailable = await checkIsFingerprintAvailable();
@@ -65,7 +72,7 @@ export const MenuScreen = () => {
   }
 
   function onHandlePinSuccess() {
-    setIsPinInputVisible(false);
+    closePinInput();
     if (hasPin) {
       setShouldUseFigerprint(false);
       showMessage('PIN removed');
@@ -75,39 +82,38 @@ export const MenuScreen = () => {
     showMessage('PIN registered');
   }
 
-  function closeModal() {
-    setIsPinInputVisible(false);
-  }
-
   return (
     <View style={styles.screen}>
-      <Option
-        label="Dark mode"
-        value={isDark}
-        onValueChange={onDarkModeValueChange}
-      />
-
-      <Option
-        label="Secured with Pin"
-        value={hasPin}
-        onValueChange={securedWithPinValueChange}
-      />
-      {shouldDisplayUseFigerprint && (
-        <Option
-          label="Use Figerprint"
-          value={shouldUseFigerprint}
-          onValueChange={useFigerprintValueChange}
-        />
-      )}
-      <Modal visible={isPinInputVisible} onRequestClose={closeModal}>
-        <KeyboardAvoidingView style={styles.pinModalContainer}>
-          <BackButton onPress={closeModal} style={styles.modalBackButton} />
+      {isPinInputVisible ? (
+        <>
+          <BackButton onPress={closePinInput} style={styles.backButton} />
           <PinInput
             type={hasPin ? 'remove' : 'register'}
             onSuccess={onHandlePinSuccess}
           />
-        </KeyboardAvoidingView>
-      </Modal>
+        </>
+      ) : (
+        <>
+          <Option
+            label="Dark mode"
+            value={isDark}
+            onValueChange={onDarkModeValueChange}
+          />
+
+          <Option
+            label="Secured with Pin"
+            value={hasPin}
+            onValueChange={securedWithPinValueChange}
+          />
+          {shouldDisplayUseFigerprint && (
+            <Option
+              label="Use Figerprint"
+              value={shouldUseFigerprint}
+              onValueChange={useFigerprintValueChange}
+            />
+          )}
+        </>
+      )}
     </View>
   );
 };

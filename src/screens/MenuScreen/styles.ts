@@ -18,17 +18,10 @@ export default function useStyles() {
       justifyContent: 'space-between',
       marginVertical: spacing(2),
     },
-    modalBackButton: {
+    backButton: {
       position: 'absolute',
       left: spacing(4),
       top: spacing(4),
-    },
-    pinModalContainer: {
-      flex: 1,
-      backgroundColor: colors.screenBackground,
-      padding: metrics.screenPadding,
-      justifyContent: 'center',
-      alignItems: 'center',
     },
   });
 }
