@@ -11,10 +11,11 @@ import {
 } from './types';
 
 export async function getShows(page: number) {
+  const endpoint = `shows?page=${page}`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<Show[]>(
-      `shows?page=${page}`,
-    );
+    const response = await tvMazeAxiosInstance.get<Show[]>(endpoint);
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -25,10 +26,10 @@ export async function getShows(page: number) {
 }
 
 export async function getSeasons(id: number) {
+  const endpoint = `shows/${id}/seasons`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<Season[]>(
-      `shows/${id}/seasons`,
-    );
+    const response = await tvMazeAxiosInstance.get<Season[]>(endpoint);
 
     return response.data;
   } catch (error) {
@@ -37,10 +38,10 @@ export async function getSeasons(id: number) {
 }
 
 export async function getSeasonEpisodes(id: number) {
+  const endpoint = `seasons/${id}/episodes`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<Episode[]>(
-      `seasons/${id}/episodes`,
-    );
+    const response = await tvMazeAxiosInstance.get<Episode[]>(endpoint);
 
     return response.data;
   } catch (error) {
@@ -49,10 +50,10 @@ export async function getSeasonEpisodes(id: number) {
 }
 
 export async function searchShows(searchString: string) {
+  const endpoint = `search/shows?q=${searchString}`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<SearchedShow[]>(
-      `search/shows?q=${searchString}`,
-    );
+    const response = await tvMazeAxiosInstance.get<SearchedShow[]>(endpoint);
 
     return response.data;
   } catch (error) {
@@ -61,10 +62,10 @@ export async function searchShows(searchString: string) {
 }
 
 export async function getShowEpisodes(id: number) {
+  const endpoint = `shows/${id}/episodes`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<Episode[]>(
-      `shows/${id}/episodes`,
-    );
+    const response = await tvMazeAxiosInstance.get<Episode[]>(endpoint);
 
     return response.data;
   } catch (error) {
@@ -73,10 +74,10 @@ export async function getShowEpisodes(id: number) {
 }
 
 export async function searchPeople(searchString: string) {
+  const endpoint = `search/people?q=${searchString}`;
+
   try {
-    const response = await tvMazeAxiosInstance.get<SearchedPerson[]>(
-      `search/people?q=${searchString}`,
-    );
+    const response = await tvMazeAxiosInstance.get<SearchedPerson[]>(endpoint);
 
     return response.data;
   } catch (error) {
@@ -85,9 +86,11 @@ export async function searchPeople(searchString: string) {
 }
 
 export async function getPersonCastCredits(id: number) {
+  const endpoint = `people/${id}/castcredits?embed=show`;
+
   try {
     const response = await tvMazeAxiosInstance.get<PersonCastCredits[]>(
-      `people/${id}/castcredits?embed=show`,
+      endpoint,
     );
 
     return response.data;
@@ -97,9 +100,11 @@ export async function getPersonCastCredits(id: number) {
 }
 
 export async function getPersonCrewCredits(id: number) {
+  const endpoint = `people/${id}/crewcredits?embed=show`;
+
   try {
     const response = await tvMazeAxiosInstance.get<PersonCrewCredits[]>(
-      `people/${id}/crewcredits?embed=show`,
+      endpoint,
     );
 
     return response.data;
