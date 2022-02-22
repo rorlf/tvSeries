@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 // Services
-import { searchPeople, showError } from 'services';
+import { searchPeople } from 'services';
 
 // Constants
 import { numPosterColumns } from 'shared/constants';
@@ -32,12 +32,12 @@ export const PeopleSearchScreen = () => {
   const { navigate } = useNavigation();
   const [searchString, setSearchString] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [people, setPeople] = useState<Person[]>([]);
   const peopleItems = useMemo(() => createPeopleItems(), [people]);
   const searchStringDebounced = useDebounce(searchString, 500);
   const shouldDisplayError =
-    people.length === 0 && hasError && isLoading === false;
+    people.length === 0 && errorMessage && isLoading === false;
 
   useNonInitialEffect(() => {
     obtainPeople();
@@ -45,7 +45,7 @@ export const PeopleSearchScreen = () => {
 
   async function obtainPeople() {
     setIsLoading(true);
-    setHasError(false);
+    setErrorMessage(undefined);
     setPeople([]);
     try {
       const searchedPeople = await searchPeople(searchStringDebounced);
@@ -54,8 +54,7 @@ export const PeopleSearchScreen = () => {
       );
       setPeople(people);
     } catch (error) {
-      showError('Error searching people');
-      setHasError(true);
+      setErrorMessage('Error searching people');
     }
     setIsLoading(false);
   }
@@ -105,7 +104,7 @@ export const PeopleSearchScreen = () => {
       {shouldDisplayError ? (
         <Error
           style={styles.error}
-          message="Error searching people"
+          message={errorMessage}
           onPressRetry={obtainPeople}
         />
       ) : (

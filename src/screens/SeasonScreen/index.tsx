@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Services
-import { getSeasonEpisodes, showError } from 'services';
+import { getSeasonEpisodes } from 'services';
 
 // Components
 import { FlatList, View } from 'react-native';
@@ -32,7 +32,7 @@ type ScreenRouteProp = RouteProp<AppNavigatorParams, 'SeasonScreen'>;
 export const SeasonScreen = () => {
   const [isEpisodesLoading, setIsEpisodesLoading] = useState(true);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const { params } = useRoute<ScreenRouteProp>();
   const styles = useStyles();
   const episodesFormatted = useMemo(() => formatEpisodes(), [episodes]);
@@ -43,14 +43,13 @@ export const SeasonScreen = () => {
 
   async function obtainEpisodes() {
     setIsEpisodesLoading(true);
-    setHasError(false);
+    setErrorMessage(undefined);
 
     try {
       const episodes = await getSeasonEpisodes(params.season.id);
       setEpisodes(episodes);
     } catch (error) {
-      showError('Error getting episodes');
-      setHasError(true);
+      setErrorMessage('Error getting episodes');
     }
 
     setIsEpisodesLoading(false);
@@ -95,13 +94,11 @@ export const SeasonScreen = () => {
   const renderEmpty = useCallback(() => {
     if (isEpisodesLoading) return <Loading style={styles.loading} />;
 
-    if (hasError)
-      return (
-        <Error onPressRetry={obtainEpisodes} message="Error getting episodes" />
-      );
+    if (errorMessage)
+      return <Error onPressRetry={obtainEpisodes} message={errorMessage} />;
 
     return null;
-  }, [isEpisodesLoading, hasError]);
+  }, [isEpisodesLoading, errorMessage]);
 
   return (
     <View style={styles.screen}>

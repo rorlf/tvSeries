@@ -8,15 +8,13 @@ import useStyles from './styles';
 
 interface Props {
   isLoading?: boolean;
-  hasError: boolean;
   children: ReactNode;
-  errorMessage: string;
+  errorMessage?: string;
   onPressRetry: () => void;
 }
 
 export const LoadingAndErrorHandler = ({
   isLoading,
-  hasError,
   errorMessage,
   children,
   onPressRetry,
@@ -25,7 +23,7 @@ export const LoadingAndErrorHandler = ({
 
   if (isLoading) return <Loading style={styles.loading} />;
 
-  if (hasError)
+  if (errorMessage)
     return <Error message={errorMessage} onPressRetry={onPressRetry} />;
 
   return <>{children}</>;

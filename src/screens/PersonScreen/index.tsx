@@ -13,11 +13,7 @@ import {
 import { ShowItem } from './components';
 
 // Services
-import {
-  getPersonCastCredits,
-  getPersonCrewCredits,
-  showError,
-} from 'services';
+import { getPersonCastCredits, getPersonCrewCredits } from 'services';
 
 // Types
 import { AppNavigatorParams } from 'navigators/AppNavigator/types';
@@ -37,7 +33,7 @@ export const PersonScreen = () => {
   const { navigate } = useNavigation();
   const { params } = useRoute<ScreenRouteProp>();
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [shows, setShows] = useState<Show[]>([]);
   const styles = useStyles();
 
@@ -47,7 +43,7 @@ export const PersonScreen = () => {
 
   async function obtainShows() {
     setIsLoading(true);
-    setHasError(false);
+    setErrorMessage(undefined);
     setShows([]);
     try {
       const castCredits = await getPersonCastCredits(params.id);
@@ -56,8 +52,7 @@ export const PersonScreen = () => {
 
       setShows(shows);
     } catch (error) {
-      showError('Error searching shows');
-      setHasError(true);
+      setErrorMessage('Error searching shows');
     }
     setIsLoading(false);
   }
@@ -109,8 +104,7 @@ export const PersonScreen = () => {
         style={styles.section}>
         <LoadingAndErrorHandler
           isLoading={isLoading}
-          errorMessage="Error searching shows"
-          hasError={hasError}
+          errorMessage={errorMessage}
           onPressRetry={obtainShows}>
           <FlatList
             data={shows}

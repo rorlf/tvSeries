@@ -26,13 +26,13 @@ export const HomeScreen = () => {
   const { navigate } = useNavigation();
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [shows, setShows] = useState<Show[]>([]);
   const [page, setPage] = useState(0);
   const [reachedEndOfTheList, setReachedEndOfTheList] = useState(false);
   const showsItems = useMemo(() => createShowItems(), [shows]);
   const shouldDisplayError =
-    shows.length === 0 && hasError && isLoading === false;
+    shows.length === 0 && errorMessage && isLoading === false;
 
   useEffect(() => {
     obtainTvSeries();
@@ -40,7 +40,7 @@ export const HomeScreen = () => {
 
   async function obtainTvSeries() {
     setIsLoading(true);
-    setHasError(false);
+    setErrorMessage(undefined);
     try {
       const shows = await getShows(page);
       if (shows) {
@@ -52,8 +52,9 @@ export const HomeScreen = () => {
 
       setReachedEndOfTheList(true);
     } catch (error) {
-      showError('Error getting shows');
-      setHasError(true);
+      const errorMessage = 'Error getting shows';
+      showError(errorMessage);
+      setErrorMessage(errorMessage);
     }
 
     setIsLoading(false);
@@ -101,7 +102,7 @@ export const HomeScreen = () => {
       <View style={styles.screen}>
         <Error
           style={styles.error}
-          message="Error getting shows"
+          message={errorMessage}
           onPressRetry={obtainTvSeries}
         />
       </View>

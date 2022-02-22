@@ -4,12 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Services
-import {
-  getSeasons,
-  getShowEpisodes,
-  onPressFavorite,
-  showError,
-} from 'services';
+import { getSeasons, getShowEpisodes, onPressFavorite } from 'services';
 
 // Components
 import {
@@ -56,9 +51,9 @@ export const ShowScreen = () => {
   const [seasons, setSeasons] = useState<Season[]>([]);
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [isSeasonsLoading, setIsSeasonsLoading] = useState(true);
-  const [hasSeasonsError, setHasSeasonsError] = useState(false);
+  const [seasonsErrorMessage, setSeasonsErrorMessage] = useState<string>();
   const [isEpisodesLoading, setIsEpisodesLoading] = useState(true);
-  const [hasEpisodesError, setHasEpisodesError] = useState(false);
+  const [episodesErrorMessage, setEpisodesErrorMessage] = useState<string>();
   const [activeEpisodeSection, setActiveEpisodeSection] = useState();
   const [favorites] = useStorageValue('@favorites');
   const isFavorite = useMemo(
@@ -97,14 +92,13 @@ export const ShowScreen = () => {
 
   async function obtainSeasons() {
     setIsSeasonsLoading(true);
-    setHasSeasonsError(false);
+    setSeasonsErrorMessage(undefined);
 
     try {
       const seasons = await getSeasons(params.id);
       setSeasons(seasons.reverse());
     } catch (error) {
-      showError('Error getting seasons');
-      setHasSeasonsError(true);
+      setSeasonsErrorMessage('Error getting seasons');
     }
 
     setIsSeasonsLoading(false);
@@ -112,14 +106,13 @@ export const ShowScreen = () => {
 
   async function obtainEpisodes() {
     setIsEpisodesLoading(true);
-    setHasEpisodesError(false);
+    setEpisodesErrorMessage(undefined);
 
     try {
       const episodes = await getShowEpisodes(params.id);
       setEpisodes(episodes);
     } catch (error) {
-      showError('Error getting episodes');
-      setHasEpisodesError(true);
+      setEpisodesErrorMessage('Error getting episodes');
     }
 
     setIsEpisodesLoading(false);
@@ -249,8 +242,7 @@ export const ShowScreen = () => {
             <LoadingAndErrorHandler
               onPressRetry={obtainSeasons}
               isLoading={isSeasonsLoading}
-              errorMessage="Error getting seasons"
-              hasError={hasSeasonsError}>
+              errorMessage={seasonsErrorMessage}>
               <FlatList
                 data={seasons}
                 horizontal
@@ -265,8 +257,7 @@ export const ShowScreen = () => {
             <LoadingAndErrorHandler
               onPressRetry={obtainEpisodes}
               isLoading={isEpisodesLoading}
-              errorMessage="Error getting episodes"
-              hasError={hasEpisodesError}>
+              errorMessage={episodesErrorMessage}>
               {sectionTitles.length > 0 ? (
                 <View style={styles.episodesContainer}>
                   <FlatList

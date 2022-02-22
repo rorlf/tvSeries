@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 // Services
-import { onPressFavorite, searchShows, showError } from 'services';
+import { onPressFavorite, searchShows } from 'services';
 
 // Constants
 import { numPosterColumns } from 'shared/constants';
@@ -32,12 +32,12 @@ export const SearchShowScreen = () => {
   const { navigate } = useNavigation();
   const [searchString, setSearchString] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [shows, setShows] = useState<Show[]>([]);
   const showsItems = useMemo(() => createShowItems(), [shows]);
   const searchStringDebounced = useDebounce(searchString, 500);
   const shouldDisplayError =
-    shows.length === 0 && hasError && isLoading === false;
+    shows.length === 0 && errorMessage && isLoading === false;
 
   useNonInitialEffect(() => {
     obtainTvSeries();
@@ -45,15 +45,14 @@ export const SearchShowScreen = () => {
 
   async function obtainTvSeries() {
     setIsLoading(true);
-    setHasError(false);
+    setErrorMessage(undefined);
     setShows([]);
     try {
       const searchedShows = await searchShows(searchStringDebounced);
       const shows = searchedShows.map(searchedShow => searchedShow.show);
       setShows(shows);
     } catch (error) {
-      showError('Error searching shows');
-      setHasError(true);
+      setErrorMessage('Error searching shows');
     }
     setIsLoading(false);
   }
@@ -103,7 +102,7 @@ export const SearchShowScreen = () => {
       {shouldDisplayError ? (
         <Error
           style={styles.error}
-          message="Error searching shows"
+          message={errorMessage}
           onPressRetry={obtainTvSeries}
         />
       ) : (
