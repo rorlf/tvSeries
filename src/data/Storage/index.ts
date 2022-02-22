@@ -42,17 +42,6 @@ function storeSensitiveData<T extends StorageKeys>(
   secureStorage.set(key, item);
 }
 
-function getSensitiveData<T extends StorageKeys>(
-  key: T,
-): StorageKeysTypes[T] | undefined {
-  const item = secureStorage.getString(key);
-  if (item) {
-    const data = convertItemToData(item);
-    return data;
-  }
-  return undefined;
-}
-
 function removeData(key: StorageKeys) {
   storage.delete(key);
 }
@@ -86,5 +75,4 @@ export default {
   getData,
   removeData,
   storeSensitiveData,
-  getSensitiveData,
 };
