@@ -16,7 +16,7 @@ import { useDebounce } from 'shared/hooks';
 
 // Components
 import { FlatList, View } from 'react-native';
-import { PosterWithName, SearchInput } from 'shared/components';
+import { Body1, PosterWithName, SearchInput } from 'shared/components';
 
 // Types
 import { PosterWithNameProps } from 'shared/components/general/PosterWithName/types';
@@ -81,6 +81,11 @@ export const FavoritesScreen = () => {
 
   const renderFooter = useCallback(() => <View style={styles.footer} />, []);
 
+  const renderEmpty = useCallback(
+    () => <Body1>No favorite shows yet</Body1>,
+    [],
+  );
+
   return (
     <View style={styles.screen}>
       <SearchInput
@@ -96,6 +101,7 @@ export const FavoritesScreen = () => {
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={renderEmpty}
         numColumns={numPosterColumns}
         showsVerticalScrollIndicator={false}
       />
