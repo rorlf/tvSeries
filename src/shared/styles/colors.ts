@@ -1,12 +1,16 @@
-export const lightColors = {
+const defaultColors = {
   primary: '#ffff00',
   primaryDark: '#c7cc00',
   primaryLight: '#ffff5a',
-  textPrimary: '#000000',
   placeholder: '#8d8d8d',
+  overlay: 'rgba(98, 114, 123,0.7)',
+};
+
+export const lightColors = {
+  ...defaultColors,
+  textPrimary: '#000000',
   screenBackground: '#9fa8da',
   navigationBar: '#9fa8da',
-  overlay: 'rgba(98, 114, 123,0.7)',
   inactiveIcon: 'rgba(255, 255, 255, 0.8)',
   favorite: '#ffff00',
   error: '#d32f2f',
@@ -17,14 +21,10 @@ export const lightColors = {
 };
 
 export const darkColors: ThemeColors = {
-  primary: '#ffff00',
-  primaryDark: '#c7cc00',
-  primaryLight: '#ffff5a',
+  ...defaultColors,
   textPrimary: '#ffffff',
-  placeholder: '#8d8d8d',
   screenBackground: '#102027',
   navigationBar: '#102027',
-  overlay: 'rgba(98, 114, 123,0.7)',
   inactiveIcon: 'rgba(255, 255, 255, 0.5)',
   favorite: '#ffff00',
   error: '#d32f2f',
