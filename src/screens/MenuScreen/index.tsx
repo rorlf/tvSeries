@@ -23,7 +23,9 @@ export const MenuScreen = () => {
   const [isFingerprintAvailable, setIsFingerprintAvailable] = useState(false);
   const [isPinInputVisible, setIsPinInputVisible] = useState(false);
   const [pin] = useStorageValue('@pin');
-  const [useFigerprint, setUseFigerprint] = useStorageValue('@useFigerprint');
+  const [shouldUseFigerprint, setShouldUseFigerprint] = useStorageValue(
+    '@shouldUseFigerprint',
+  );
 
   const hasPin = !!pin;
   const shouldDisplayUseFigerprint = isFingerprintAvailable && hasPin;
@@ -59,13 +61,13 @@ export const MenuScreen = () => {
   }
 
   function useFigerprintValueChange(value) {
-    setUseFigerprint(value);
+    setShouldUseFigerprint(value);
   }
 
   function onHandlePinSuccess() {
     setIsPinInputVisible(false);
     if (hasPin) {
-      setUseFigerprint(false);
+      setShouldUseFigerprint(false);
       showMessage('PIN removed');
       return;
     }
@@ -93,7 +95,7 @@ export const MenuScreen = () => {
       {shouldDisplayUseFigerprint && (
         <Option
           label="Use Figerprint"
-          value={useFigerprint}
+          value={shouldUseFigerprint}
           onValueChange={useFigerprintValueChange}
         />
       )}

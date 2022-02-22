@@ -25,7 +25,7 @@ export const PinScreen = () => {
   const styles = useStyles();
   const { colors } = useTheme();
   const { replace } = useNavigation<NavigationProps>();
-  const [useFigerprint] = useStorageValue('@useFigerprint');
+  const [shouldUseFigerprint] = useStorageValue('@shouldUseFigerprint');
 
   useEffect(() => {
     verifyFingerprint();
@@ -33,7 +33,7 @@ export const PinScreen = () => {
 
   async function verifyFingerprint() {
     try {
-      if (useFigerprint) {
+      if (shouldUseFigerprint) {
         await TouchID.authenticate('Enter your fingerprint', {
           imageColor: colors.primary,
           imageErrorColor: colors.error,
