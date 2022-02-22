@@ -6,7 +6,7 @@ Follow the official React Native documentation to setting up your environment: [
 ## Running
 1. Clone this repository.
 2. Run `yarn install` command in project root.
-3. Run `npx react-native run-android"` to run on a device or emulator.
+3. Run `npx react-native run-android` to run on a device or emulator.
 
 
 ## Features 
