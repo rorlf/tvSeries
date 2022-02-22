@@ -7,10 +7,10 @@ import { checkIsFingerprintAvailable, showMessage } from 'services';
 import { toggleTheme, useTheme } from 'store/slices/themeSlice';
 import { useDispatch } from 'react-redux';
 import Storage, { useStorageValue } from 'data/Storage';
-import { useBackHandler } from 'shared/hooks';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Components
-import { Alert, View } from 'react-native';
+import { Alert, BackHandler, View } from 'react-native';
 import { BackButton, PinInput } from 'shared/components';
 import { Option } from './components';
 
@@ -34,12 +34,24 @@ export const MenuScreen = () => {
   useEffect(() => {
     verifyFigerprintSensor();
   }, []);
-  const closePinInput = useCallback(() => {
-    setIsPinInputVisible(false);
-    return true;
-  }, []);
 
-  useBackHandler(closePinInput);
+  const onBackPress = useCallback(() => {
+    if (isPinInputVisible) {
+      closePinInput();
+      return true;
+    }
+
+    return false;
+  }, [isPinInputVisible]);
+
+  useFocusEffect(
+    useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [onBackPress]),
+  );
 
   async function verifyFigerprintSensor() {
     const isFingerprintAvailable = await checkIsFingerprintAvailable();
@@ -80,6 +92,10 @@ export const MenuScreen = () => {
     }
 
     showMessage('PIN registered');
+  }
+
+  function closePinInput() {
+    setIsPinInputVisible(false);
   }
 
   return (
